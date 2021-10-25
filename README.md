@@ -1,6 +1,5 @@
-## 땅땅땅
-
-### Description <br>
+**땅땅땅**
+## Description <br>
 옥션사이트를 벤치 마킹한 중고 물품 경매 사이트  
 
 기존의 웹프로젝트를 springMVC로 리팩토링하는 프로젝트이다.  
@@ -14,9 +13,8 @@ springMVC에 대해 공부한 내용을 프로젝트에 적용해 보고 싶어�
 프로젝트 진행 과정과 내용은 블로그에 상세하게 기록하는 걸 목표로 한다!  
 https://devswim.tistory.com/  
 
-- - -  
 
-### Environment  
+## Environment  
 
 Spring Boot 2.5.6  
 gradle  
@@ -24,4 +22,4 @@ Java 11
 Packaging: War  
 lombok  
 Jsp  
-spring jdbc, MySQL  
+MyBatis, MySQL  
