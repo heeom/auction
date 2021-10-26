@@ -22,3 +22,4 @@ Packaging: War
 lombok  
 Jsp  
 MyBatis, MySQL  
+Intellij
