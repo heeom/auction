@@ -1,9 +1,7 @@
 package com.ddang.auction.member.service;
 
 import com.ddang.auction.member.domain.Member;
-import com.ddang.auction.member.repository.JdbcTemplateMemberRepository;
 import com.ddang.auction.member.repository.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,6 +32,11 @@ public class MemberService {
                     throw new IllegalArgumentException("Duplicate MemberId");
                });
      }
+
+     /**
+      * 로그인
+      */
+
 
      /**
       * 전체 회원 조회
