@@ -20,6 +20,6 @@ gradle
 Java 11  
 Packaging: War  
 lombok  
-Jsp  
-MyBatis, MySQL  
+Jsp, thymeleaf  
+Spring JDBC Template, MySQL  
 Intellij
