@@ -20,6 +20,24 @@ gradle
 Java 11  
 Packaging: War  
 lombok  
-Jsp, thymeleaf  
+Jsp  
 Spring JDBC Template, MySQL  
-Intellij
+Intellij  
+
+## TO-DO-LIST
+
+기능구현목록  
+
+회원관리  
+
+1. 로그인  
+    1. (예외처리) 일치하지 않는 비밀번호 입력  
+2. 회원가입  
+    1. 중복아이디, 이메일, 닉네임 검증  
+    2. 이메일 인증  
+3. 로그아웃  
+4. 회원정보 수정 : id로 회원정보 조회  
+    1. (예외처리) 중복닉네임 입력  
+5. 관리자페이지  
+    1. 특정회원조회 : id로 회원정보 조회  
+    2. 회원목록조회 : 회원 전체 목록 조회  
