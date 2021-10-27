@@ -1,11 +1,16 @@
 package com.ddang.auction.member.controller;
 
 import com.ddang.auction.member.domain.Member;
+import com.ddang.auction.member.domain.SessionConst;
 import com.ddang.auction.member.service.MemberService;
+import com.mysql.cj.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/members")
@@ -25,7 +30,7 @@ public class MemberController {
     @PostMapping("/join")
     public String join(Member member){
         memberService.join(member);
-        return "home/index";
+        return "redirect:/home";
     }
 
     @GetMapping("/login")
@@ -34,8 +39,26 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String login(Member member){
-        return "home/index";
+    public String login(String memberId, String password, HttpServletRequest request){
+        Member member = memberService.LoginMember(memberId, password);
+        if (member == null){
+            //로그인 실패
+            return "members/loginForm";
+        }
+        //로그인 세션생성
+        //세션이 있으면, 이미 존재하는 세션 반환 / 없으면 신규세션 생성해서 반환
+        HttpSession session = request.getSession();
+        session.setAttribute(SessionConst.LOGIN_MEMBER, member);
+        return "redirect:/home";
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpServletRequest request){
+        HttpSession session = request.getSession(false); // session존재하지 않을때 새로운 세션 생성하지 않음
+        if (session != null){
+            session.invalidate();
+        }
+        return "redirect:/home";
     }
 
     @GetMapping("/update")

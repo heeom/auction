@@ -26,7 +26,7 @@ public class MemberServiceTest {
         member.setPassword("testPW");
         member.setNickName("testNick");
         member.setEmail("test@email.com");
-        member.setRegTime(LocalDateTime.now());
+        member.setRegTime(LocalDateTime.now().toString());
 
         //when
         Member savedMember = memberService.join(member);
@@ -34,5 +34,19 @@ public class MemberServiceTest {
         //then
         Member findMember = memberService.findOne(savedMember.getId()).get();
         Assertions.assertThat(member.getMemberId()).isEqualTo(findMember.getMemberId());
+    }
+
+    @Test
+    void LoginMember(){
+        //given
+        String loginId = "testID";
+        String password = "testPassword";
+
+        //when
+        Member loginMember = memberService.LoginMember(loginId, password);
+
+        //then 
+        //로그인 성공
+        Assertions.assertThat(loginMember.getMemberId()).isEqualTo(loginId);
     }
 }

@@ -23,6 +23,7 @@ public class MemberService {
       */
      public Member join(Member member){
           checkDuplicateMemberId(member);
+
           return memberRepository.save(member);
      }
 
@@ -34,9 +35,14 @@ public class MemberService {
      }
 
      /**
-      * 로그인
+      * 로그인 실패
+      * @return null
       */
-
+     public Member LoginMember(String memberId, String password) {
+          return memberRepository.findByMemberId(memberId)
+                  .filter(m -> password.equals(m.getPassword()))
+                  .orElse(null);
+     }
 
      /**
       * 전체 회원 조회
