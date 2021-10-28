@@ -1,0 +1,104 @@
+@charset "UTF-8";
+/* 신고(메인) 페이지 - main.jsp */
+.r_sec{text-align: center; margin-top: 400px}
+.r_img_u,.r_img_p,.r_img_l{width: 180px;margin-left: 100px;margin-right: 100px}
+.r_img_u:hover,.r_img_p:hover,.r_img_l:hover{transform:scale(1.1);cursor: pointer}
+.r_admin_out{margin-top: 200px}
+.r_admin_btn{width:150px;background-color: grey; cursor: pointer;font-size: 20px;border-radius: 20px;font-weight: bold}
+.r_admin_btn:hover{background-color: black;color: #fff}
+
+/* 사용자신고 - user.jsp */ /* 게시글신고 - product.jsp */
+.r_sec_out{text-align: center;margin-top: 200px}
+.r_out{display: inline-block}
+.r_content{width: 300px}
+.r_btn{float: right;background-color: #ec4524;color: #fff;border-radius: 5px}
+.r_btn:hover{cursor: pointer;background-color: orange}
+.r_info_btn{border-radius: 8px; background-color: gray; font-weight: bold;font-size: 12px; margin-left: 3px}
+.r_info_btn:hover{background-color: black; color: #fff; cursor: pointer}
+
+/* info */
+.r_info{width: 400px; height: 180px; text-align: center}
+.r_info_font{text-decoration: underline; color: red}
+
+/* 신고내역 - list.jsp */
+.r_list_out{text-align: center;margin: 20px;font-size: 28px;font-weight: bold}
+.r_list{width: 200px; background-color: orange; border-radius: 10px}
+.r_list_status{width: 100px;background-color: red; border-radius: 10px;color: #fff}
+.r_list_wrap{width: 470px; height: 570px; text-align: center}
+.r_list_table{line-height: 35px; margin-bottom: 30px}
+.r_paging01{text-decoration: none; color: #000}
+.r_paging_btn{background-color: #ec4524; border-radius: 5px; color: #fff; font-weight: bold}
+.r_paging_btn:hover{background-color: orange; cursor: pointer}
+.r_list_delete{background-color: black;color: #fff; border-radius: 10px; width: 35px;font-size: 10px;text-align: left}
+.r_list_delete:hover{background-color: gray; color: black; cursor: pointer}
+
+/* 신고조회 페이지 - inquiry.jsp */
+.r_sec_iq{text-align: center; margin: 300px 0 0}
+.r_iq_font{font-size: 30px; font-weight: bold}
+.r_iq_base01{position: relative; height: 20px; margin:0px; padding:0px; top: 8px; text-align: center}
+.r_iq_base02{width: 800px; height:150px; border: 3px solid pink; border-radius: 40px;display: inline-block;background: #ec4524;border: 2px solid pink}
+.r_back{background: #fff}
+.r_inquiry{width: 250px; height:25px; border-radius: 3px;font-size: 16px}
+.r_iq_btn{width: 40px; height: 25px; cursor: pointer; border-radius: 5px;background-color: orange; color: #fff; font-size: 16px}
+.r_iq_btn:hover {background-color: red}
+.r_iq_info>a{font-size: 30px;margin-right: 50px;color: #1a8cff;margin-left: 50px;font-weight: bold}
+.r_iq_plus01,.r_iq_plus02,.r_iq_plus03{color: #f00;font-size: 20px}
+.r_iq_result{margin-top: 55px; font-size: 18px; color: #fff; font-weight: bold}
+.r_link{text-align: center; margin-top: 200px}
+.r_link a{margin-right: 50px}
+.r_link01:hover,.r_link02:hover,.r_link03:hover,.r_link04:hover,.r_link05:hover{transform:scale(1.1); cursor: pointer}
+
+.r_iq_info{margin-top: 100px;-webkit-animation:text-focus-in 1s cubic-bezier(.55,.085,.68,.53) both;animation:text-focus-in 1s cubic-bezier(.55,.085,.68,.53) both}
+@-webkit-keyframes text-focus-in{0%{-webkit-filter:blur(12px);filter:blur(12px);opacity:0}100%{-webkit-filter:blur(0);filter:blur(0);opacity:1}}@keyframes text-focus-in{0%{-webkit-filter:blur(12px);filter:blur(12px);opacity:0}100%{-webkit-filter:blur(0);filter:blur(0);opacity:1}}
+
+/* 관리자 페이지 - admin.jsp */
+.r_admin_side{width: 400px; height: 800px;float: left; text-align: center}
+.r_admin_right{width: 800px; height: 800px;float: right; text-align: center; margin-top: 25px}
+.r_admin_title{background-color: #ec4524;width: 200px;height: 30px;border-radius: 10px; border: 2px solid black;font-size: 15px;color: #fff;font-weight: bold;display: inline-block}
+.r_table_title{font-size: 20px; font-weight: bold;background-color: #ec4524; border-radius: 10px; border: 2px solid black; color: #fff}
+.r_table{margin-top: 50px; line-height: 40px; text-align: center}
+.r_table tr:hover{cursor: pointer; color: #ace600}
+.r_in_content{display: inline-block; margin-top: 20px}
+.r_num{width: 100px}
+.r_div{width: 200px}
+.r_con{width: 100px}
+.r_paging{background: grey; width: 300px; height: 50px; display: inline-block; border-radius: 10px;color: #fff;margin-top: 60px}
+.r_admin_list{margin-top: 15px}
+.r_admin_list_btn{background-color: #000; color: #fff; font-weight: bold; border-radius: 5px}
+.r_admin_list_btn:hover{background-color: #fff; color: #000; cursor: pointer}
+.r_restrict_base{text-align: center}
+.r_admin_restrict{display:inline-block;color: #fff; background-color: orange; width: 100px; margin-top: 50px; border-radius: 10px}
+.r_admin_restrict:hover{cursor: pointer;background-color: #ec4524}
+.r_member_restrict{margin-left:20px;width: 600px; height: 550px;text-align: center; line-height: 30px}
+.r_member_restrict_center{display: inline-block;}
+.r_restrict_01{width: 180px}
+.r_restrict_02{width: 300px}
+.r_restrict_03{width: 100px}
+.r_stop_list{margin-top:10px;margin-bottom: 10px; font-size: 16px; font-weight: bold}
+.r_start{background-color: red; border-radius: 10px; font-weight:  bold; color: #fff}
+.r_start:hover{background-color: pink; cursor: pointer;color: #000}
+.r_stop{background-color:blue; border-radius:10px; font-weight:  bold; color: #fff}
+.r_stop:hover{background-color: #b3d1ff; cursor: pointer;color: #000}
+
+/* 관리자 뷰페이지 - view.jsp */
+.r_view_out{text-align: center}
+.r_view{text-align: center;display: inline-block}
+.r_view_table{margin-top: 50px; line-height: 100px}
+.r_view_table th{width: 100px}
+.r_view_table td{width: 300px}
+.r_v_btn{width:50px;: center;margin-left: 20px; background-color: grey; font-weight: bold;border-radius: 5px}
+.r_v_btn:hover{background-color: black; color: black; cursor: pointer;color: #fff}
+.r_view_btn,.r_view_btn01,.r_view_btn02,.r_view_btn03{width:50px;height: 30px; border-radius: 20px; background-color: #ec4524; color: #fff}
+.r_view_btn:hover,.r_view_btn01:hover,.r_view_btn02:hover,.r_view_btn03:hover{background-color: orange}
+.r_view_btn_up{width:50px;height: 30px; border-radius: 20px; background-color: orange; color: #fff}
+.r_view_title{font-size: 30px;font-weight: bold}
+.r_view_content{width: 295px}
+.r_restrict{background-color: red; font-weight: bold; border-radius: 10px}
+.r_restrict:hover{background-color: #ff6600; cursor: pointer}
+
+/* 관리자 검색 페이지 - search.jsp */
+.r_search_wrap{border: 1px solid black; width:300px; height: 200px; text-align: center;margin-left: 15px;margin-top: 20px}
+.r_search_result{margin-top: 30px; color: red; font-weight: bold; border: 2px dashed orange; width: 250px; height:25px; border-radius: 30px; display: inline-block}
+.r_search_btn{background-color: #ec4524; color: #fff; border-radius: 5px; font-weight: bold}
+.r_search_btn:hover{background-color: orange; cursor: pointer}
+

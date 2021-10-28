@@ -1,0 +1,10 @@
+@charset "UTF-8";
+body {font-family:'Noto Sans KR', 'Malgun Gothic', dotum, sans-serif;}
+
+/* 이용약관 */
+.terms{max-width: 800px; font-size: 0.8em;margin: 0 auto;}
+.terms > .jang{padding-top: 50px; font-size:1.5em;}
+
+
+/* 개인정보처리방침 */
+

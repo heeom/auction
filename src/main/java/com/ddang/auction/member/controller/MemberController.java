@@ -5,9 +5,11 @@ import com.ddang.auction.member.domain.SessionConst;
 import com.ddang.auction.member.service.MemberService;
 import com.mysql.cj.Session;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -26,6 +28,7 @@ public class MemberController {
     public String joinForm(){
         return "members/joinForm";
     }
+
 
     @PostMapping("/join")
     public String join(Member member){
@@ -52,7 +55,7 @@ public class MemberController {
         return "redirect:/home";
     }
 
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     public String logout(HttpServletRequest request){
         HttpSession session = request.getSession(false); // session존재하지 않을때 새로운 세션 생성하지 않음
         if (session != null){

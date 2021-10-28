@@ -1,0 +1,67 @@
+@charset "UTF-8";
+
+
+#list{
+
+
+
+    float: left;
+    width: 50%;
+    margin-left: 25%;
+
+
+}
+
+
+
+p{
+    text-align: left;
+}
+#flag{
+    font-size: 12px;
+    color: gray;
+}
+#cate{
+    font-size: 13px;
+    color: black;
+    font-weight: bold;
+}
+
+#selname{
+    font-size: 13px;
+    color: gray;
+}
+
+#other{
+    font-size: 15px;
+    color:blue;
+}
+#date{
+    float: right;
+    font-size: 12px;
+    color: black;
+    font-weight: bold;
+}
+
+#title{
+    margin: 5% 0 0 10%;
+    font-size: 250%;
+}
+
+#pic{
+    float: right;
+    border-radius: 70%
+}
+
+#pic2{
+    float: right;
+    height:100px;
+    opacity: 0.4;
+    border-radius: 45%;
+
+}
+
+a:link { color: black; text-decoration: none;}
+a:visited { color: black; text-decoration: none;}
+
+

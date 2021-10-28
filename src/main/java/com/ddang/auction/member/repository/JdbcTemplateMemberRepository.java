@@ -66,7 +66,7 @@ public class JdbcTemplateMemberRepository implements MemberRepository{
             member.setPassword(rs.getString("mb_password"));
             member.setNickName(rs.getString("mb_nickname"));
             member.setEmail(rs.getString("mb_email"));
-            member.setRegTime(LocalDateTime.parse(rs.getString("mb_regdate")));
+            member.setRegTime(rs.getString("mb_regdate"));
             return member;
         };
     }

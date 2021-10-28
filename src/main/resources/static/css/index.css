@@ -1,0 +1,68 @@
+@charset "UTF-8";
+
+/* 배너 슬라이드 */
+.slide ul {list-style:none outside none;padding-left:0;margin:0}
+.slide .slide-content .slide-content {margin-bottom:60px}
+.slide .slider li {text-align:center;color:#FFF;background-size:cover;background-position:center}
+.slide .slider h3 {margin:0;padding:100px 0;height:250px}
+.slide .slide-content {width:100%;height:300px}
+.slide .item1 {background-image:url(../img/slide03.png)}
+.slide .item2 {background-image:url(../img/slide02.png)}
+.slide .item3 {background-image:url(../img/slide06.png)}
+.slide .item4 {background-image:url(../img/slide04.png)}
+.slide .item5 {background-image:url(../img/slide05.png)}
+.slide .item6 {background-image:url(../img/slide01.png)}
+.slide [class *= "item"]:hover {transform:scale(1.05)}
+
+/* 광고 상품 */
+.ad_item {width:100%;display:inline-block;margin:60px 0}
+.ad_item .set a {display:inline-block;margin-right:18.1px}
+.ad_item .set a:hover {box-shadow:0 0 5px 1px #309200;border-bottom-left-radius:5px;border-bottom-right-radius:5px;transition-duration:0.2s}
+.ad_item .set a:not(:hover) {transition-duration:0.2s}
+.ad_item .set a:last-child {margin-right:0}
+.ad_item .set a > span {display:block}
+.ad_item .set .info {width:100%;float:left;padding:10px;font-family:돋움, Dotum;font-size:11px;letter-spacing:-1px;color:#888}
+.ad_item .set .info .ico_hot {background:#FF4646;color:#FFF;font-weight:500;letter-spacing:-1px;font-size:11px;padding:3px 5px 2px 3px;margin-right:5px}
+.ad_item .set .datetime_end {display:block;padding:0 5px 10px;font-family:돋움, Dotum;font-size:11px;letter-spacing:-0.5px;color:#888}
+.ad_item .set .thumbnail img {width:196px;height:200px;box-shadow:0 0 3px 1px #c1c1c1}
+.ad_item .set .item_name {width:186px;padding:10px 5px 3px;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* 베스트 상점 */
+.best_shop {margin:50px 0;display:inline-block; width: 1280px;}
+.best_shop .ranktable {border:4px solid #FF4000;float:left;padding:25px;margin:26px;font-weight:bold;position:relative;table-layout:fixed;width:202px;height:152px}
+.best_shop .back {position:absolute;bottom:5px;right:3px;opacity:0.8}
+
+/* 랜덤 카테고리 */
+.random_category {width:100%;display:inline-block;margin:60px 0}
+.random_category .subject {font-size:20px;margin-bottom:20px;text-align:center;text-shadow:1px 1px 20px #000;color:#FFF}
+.random_category .empty {display:block;text-align:center;margin:15px 0}
+.random_category .set a {display:inline-block;margin-right:18.1px}
+.random_category .set a:hover {box-shadow:0 0 6px 2px #dedede;border-radius:5px;transition-duration:0.2s}
+.random_category .set a:not(:hover) {transition-duration:0.2s}
+.random_category .set a:last-child {margin-right:0}
+.random_category .set a > span {display:block}
+.random_category .set .category {text-align:center;padding:10px 0;font-family:돋움, Dotum;font-size:11px;letter-spacing:-1px;color:#888}
+.random_category .set .thumbnail img {width:196px;height:200px;box-shadow:0 0 3px 1px #c1c1c1}
+.random_category .set .item_name {width:186px;padding:10px 5px;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* 그래프 */
+.graph .chart_wrap {width:1280px;margin:60px 0;display:grid;grid-template-columns:repeat(3, minmax(330px,350px));grid-template-rows:repeat(1, minmax(350px,350px));row-gap:5px;padding:5px}
+
+/* FAQ */
+.index_faq .faqtop {font-size:20px;margin-bottom:10px}
+.index_faq .faqtop input[type="button"] {width:150px;margin:0 20px 0 20px;border-radius:5px}
+.index_faq .FAQTitle .img {width:10px;padding:10px auto}
+.index_faq .Q {background-color:#eee;color:#444;cursor:pointer;padding:18px;width:100%;border:none;text-align:left;outline:none;font-size:15px;transition:0.4s}
+.index_faq .Q:after {content:'\002B';color:#777;font-weight:bold;float:right;margin-left:5px}
+.index_faq .faqactive:after {content:"\2212"}
+.index_faq .faqactive,
+.index_faq .Q:hover {background-color:#ccc}
+.index_faq .A {padding:0 18px;background-color:white;max-height:0;overflow:hidden;transition:max-height 0.2s ease-out}
+
+.index_faq{font-size:20px;}
+.index_faq .Q img{float:left; margin:0 10px 0 10px; width:40px}
+.index_faq .Q p{float:left; font-size:18px; margin:5px 10px 5px 10px}
+
+.index_faq .A div img{float:left; margin:10px 10px 10px 10px; width:40px; }
+.index_faq .A #faqa{width: 1150px; float:left; font-size:17px; margin:30px 10px 30px 10px;}
+.index_faq .A:last-child{ border-bottom: solid lightgray 1px;}

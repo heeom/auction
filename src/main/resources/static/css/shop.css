@@ -1,0 +1,14 @@
+@charset "UTF-8";
+
+.shop_main{text-align: center; width: 500px; height:550px; border: 2px solid black; background-color: lightyellow}
+.shop_title{font-size: 18px; font-weight: bold;margin-top: 30px;color:#fff; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black}
+.shop_point{text-align: left; margin-top: 10px}
+.shop_img:hover{transform:scale(1.1);cursor: pointer}
+.shop_title_img{width: 30px}
+.shop_point_btn, .shop_ticket_btn{background-color: orange; color: #fff; border-radius: 10px; margin-left: 150px; margin-top: 10px}
+.shop_point_btn:hover, .shop_ticket_btn:hover{background-color: red; cursor: pointer;font-weight: bold}
+.shop_point_inquiry,.shop_ticket_inquiry{margin-left: 30px; font-weight: bold}
+.shop_price{font-weight: bold;}
+/* 약관  */
+.shop_terms{width: 500px; height: 500px}
+

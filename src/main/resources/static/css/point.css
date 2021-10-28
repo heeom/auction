@@ -1,0 +1,27 @@
+@charset "UTF-8";
+.point_title{text-align: center; margin-top: 50px;display: block}
+.point_title_font{font-size:30px; font-weight: bold; color: #ec4524}
+.point_title_img{width: 30px; margin-bottom: 11px; margin-right: 10px}
+.point_left{width: 400px; height: 800px; float: left; clear: both; text-align: center}
+.point_left_wrap{border: 5px dashed #ec4524; width: 350px; height: 700px; border-radius: 50px; margin-top: 100px; background-color: #f5f5f0}
+.point_right{width: 800px; height: 800px; display: inline-block;clear: both}
+.point_list{border:2px solid pink;hetext-align:center;background-color: #ec4524; border-radius: 10px; font-size: 20px; font-weight: bold; color: #fff}
+.point_list_id{border:2px solid pink;text-align:center;background-color: #ec4524; border-radius: 10px; font-size: 20px; font-weight: bold; color: #fff}
+.point_id, .point, .ticket{margin-left: 10px; font-weight: bold; font-size: 20px}
+.point_list_content{margin-top: 30px; font-size: 16px}
+.point_margin{margin-top: 20px}
+.point_tip{background-color: #ec4524; border-radius: 10px;color: #fff; font-size: 12px}
+.point_href{font-size: 16px; float: left; margin-left: 30px; background-color: #ec4524; border-radius: 10px; color: #fff; border: 2px solid pink; padding: 1px}
+.point_href:hover{background-color: orange; cursor: pointer}
+
+.pay_btn_one{border:#fff;background-color:#fff;background-image: url("../img/pay_one.png"); width: 210px; height: 117px;background-repeat: no-repeat; margin:150px 150px 0 200px;}
+.pay_btn_two{border:#fff;background-color:#fff;background-image: url("../img/pay_two.png"); width: 210px; height: 117px;background-repeat: no-repeat;margin-top: 150px; margin-left: 10px}
+.pay_btn_three{border:#fff;background-color:#fff;background-image: url("../img/pay_three.png"); width: 210px; height: 117px;background-repeat: no-repeat; margin:150px 150px 0 200px;}
+.pay_btn_four{border:#fff;background-color:#fff;background-image: url("../img/pay_four.png"); width: 210px; height: 117px;background-repeat: no-repeat;margin-top: 150px;margin-left: 10px}
+.pay_btn_five{border:#fff;background-color:#fff;background-image: url("../img/pay_five.png"); width: 210px; height: 117px;background-repeat: no-repeat; margin:150px 150px 0 200px;}
+.pay_btn_six{border:#fff;background-color:#fff;background-image: url("../img/pay_six.png"); width: 210px; height: 117px;background-repeat: no-repeat;margin-top: 150px;margin-left: 10px}
+.pay_btn_one:hover,.pay_btn_two:hover,.pay_btn_three:hover,.pay_btn_four:hover,.pay_btn_five:hover,.pay_btn_six:hover{transform:scale(1.2); cursor: pointer}
+
+.point_href_shop{font-size: 16px; float: left; margin-left: 30px; background-color: #ec4524; border-radius: 10px; color: #fff; border: 2px solid pink;animation:heartbeat 1.5s ease-in-out infinite both;padding: 1px}
+.point_href_shop:hover{background-color: orange; cursor: pointer}
+@keyframes heartbeat{from{transform:scale(1);transform-origin:center center;animation-timing-function:ease-out}10%{transform:scale(.91);animation-timing-function:ease-in}17%{transform:scale(.98);animation-timing-function:ease-out}33%{transform:scale(.87);animation-timing-function:ease-in}45%{transform:scale(1);animation-timing-function:ease-out}}
