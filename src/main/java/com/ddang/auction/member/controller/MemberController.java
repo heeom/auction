@@ -1,19 +1,20 @@
 package com.ddang.auction.member.controller;
 
+import com.ddang.auction.member.domain.LoginMember;
 import com.ddang.auction.member.domain.Member;
 import com.ddang.auction.member.domain.SessionConst;
 import com.ddang.auction.member.service.MemberService;
-import com.mysql.cj.Session;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+@Slf4j
 @Controller
 @RequestMapping("/members")
 public class MemberController {
@@ -37,22 +38,29 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-    public String loginForm(){
+    public String loginForm(HttpServletRequest request,
+            @RequestParam(defaultValue = "/") String redirectURI){
+
+        HttpSession session = request.getSession();
+        session.setAttribute("redirectURI", redirectURI);
+
         return "members/loginForm";
     }
 
     @PostMapping("/login")
-    public String login(String memberId, String password, HttpServletRequest request){
-        Member member = memberService.LoginMember(memberId, password);
+    public String login(LoginMember loginMember, HttpServletRequest request){
+
+        Member member = memberService.login(loginMember);
         if (member == null){
-            //로그인 실패
             return "members/loginForm";
         }
+
         //로그인 세션생성
         //세션이 있으면, 이미 존재하는 세션 반환 / 없으면 신규세션 생성해서 반환
         HttpSession session = request.getSession();
         session.setAttribute(SessionConst.LOGIN_MEMBER, member);
-        return "redirect:/home";
+
+        return "redirect:"+session.getAttribute("redirectURI");
     }
 
     @GetMapping("/logout")

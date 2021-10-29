@@ -1,5 +1,6 @@
 package com.ddang.auction.member.service;
 
+import com.ddang.auction.member.domain.LoginMember;
 import com.ddang.auction.member.domain.Member;
 import com.ddang.auction.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
@@ -38,9 +39,9 @@ public class MemberService {
       * 로그인 실패
       * @return null
       */
-     public Member LoginMember(String memberId, String password) {
-          return memberRepository.findByMemberId(memberId)
-                  .filter(m -> password.equals(m.getPassword()))
+     public Member login(LoginMember loginMember) {
+          return memberRepository.findByMemberId(loginMember.getMemberId())
+                  .filter(m -> m.getPassword().equals(loginMember.getPassword()))
                   .orElse(null);
      }
 

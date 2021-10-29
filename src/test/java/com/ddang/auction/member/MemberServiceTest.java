@@ -1,5 +1,6 @@
 package com.ddang.auction.member;
 
+import com.ddang.auction.member.domain.LoginMember;
 import com.ddang.auction.member.domain.Member;
 import com.ddang.auction.member.repository.MemberRepository;
 import com.ddang.auction.member.service.MemberService;
@@ -39,14 +40,15 @@ public class MemberServiceTest {
     @Test
     void LoginMember(){
         //given
-        String loginId = "testID";
-        String password = "testPassword";
+        LoginMember loginMember = new LoginMember();
+        loginMember.setMemberId("testID");
+        loginMember.setPassword("testPassword");
 
         //when
-        Member loginMember = memberService.LoginMember(loginId, password);
+        Member member = memberService.login(loginMember);
 
         //then 
         //로그인 성공
-        Assertions.assertThat(loginMember.getMemberId()).isEqualTo(loginId);
+        Assertions.assertThat(loginMember.getMemberId()).isEqualTo(member.getMemberId());
     }
 }
