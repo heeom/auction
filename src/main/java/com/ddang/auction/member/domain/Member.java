@@ -16,13 +16,6 @@ public class Member {
     private String address1;
     private String address2;
     private String phoneNumber;
-    private Integer point;
     private String regTime;
-/*
-    private Integer ticket;
-    private int emailCertify;
-    private String emailCertify2;
-    private LocalDateTime withdrawalTime;
-    private LocalDateTime bannedTime;
- */
+
 }

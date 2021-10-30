@@ -1,7 +1,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:include page="../main/head.jsp" />
+<jsp:include page="../home/head.jsp" />
 
 <c:set var="no" value="${param.no }" />
 <c:set var="strangerID" value="${strangerID }" />
@@ -333,4 +333,4 @@ input[type=button]:hover {
 
 
 
-<jsp:include page="../main/tail.jsp" />
+<jsp:include page="../home/tail.jsp" />
