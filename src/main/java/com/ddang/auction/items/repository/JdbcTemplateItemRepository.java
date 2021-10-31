@@ -59,7 +59,7 @@ public class JdbcTemplateItemRepository implements ItemRepository{
 
     @Override
     public List<Item> findAllItems() {
-        return jdbcTemplate.query("select * item order by it_itemId", itemRowMapper());
+        return jdbcTemplate.query("select * from item order by it_itemId", itemRowMapper());
     }
 
     @Override
