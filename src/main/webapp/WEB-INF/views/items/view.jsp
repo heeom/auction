@@ -13,6 +13,7 @@
 <c:set var="orderarticle" value="${orderarticle}"/>
 
 <c:set var="memberID" value="${sessionScope.memberID}" />
+<c:set var="item" value="${item}"/>
 
 <style>
 
@@ -144,15 +145,15 @@ input[type=button]:hover {
 
 <!-- 	<div id="jb-container"> -->
 <div id="jb-header">
-	<h1 style="font-size: 2em">${article.getName()}</h1>
+	<h1 style="font-size: 2em">${item.itemName}</h1>
 </div>
 <div id="jb-content">
-	<p>${article.getContent()} </p>
+	<p>${item.itemContent} </p>
 
 </div>
 <div id="jb-sidebar-right">
 	<h1 class="a" style="font-size: 4em">경매종료일</h1>
-	<h1 id="d-day" style="font-size: 2em">${article.getEndTime()}</h1>
+	<h1 id="d-day" style="font-size: 2em">${item.endItemDate}</h1>
 	<hr class="a" style="border: solid 10px red;">
 	<div>
 		<div>
@@ -160,20 +161,20 @@ input[type=button]:hover {
 				<div style="padding-top: 0;">
 					<br> <br> <br>
 					<h3 class="a" style="font-size: 3em">시작가</h3>
-					<p style="font-size: 2em">${article.getStartPrice()}원</p>
+					<p style="font-size: 2em">${item.firstBidPrice}원</p>
 					</div>
 						<div>
 							<br>
 							<h3 class="a" style="font-size: 3em">현재 입찰가</h3>
-							<input type="text" id="nowprice" value="${article.getNowPrice()}원"
+							<input type="text" id="nowprice" value="${item.nowBidPrice}원"
 							 readonly style=" font-style: normal; border:0px; text-align: center; font-size: 2em">
 							<br>
-							<input type="hidden" id="nowprice2" value="${article.getNowPrice()}">
+							<input type="hidden" id="nowprice2" value="${item.nowBidPrice}">
 							<br>
 							<h3 class="a" style="font-size: 3em">최대 입찰가</h3>
 							<span style="color:red;">※최대 입찰가 입력시 즉시 낙찰됩니다.</span>
 							<p style="font-size: 2em">
-							${article.getMaxPrice()}원
+							${item.maxBidPrice}원
 							</p><br>
 							<p class="a">
 								<strong style="font-size: 2em">${orderarticle}</strong>명 참여
@@ -184,9 +185,9 @@ input[type=button]:hover {
 							<br>
 							<h3 class="a" style="font-size: 2em">입찰가
 								직접 입력</h3><span style="color:red;">※(주의하세요!)현재 입찰가에 금액이 더해집니다.</span><br>
-								<form action="itemAddPriceAcion.it?it_no=${article.getNo()}&memberID=${article.getMemberID()}
-								&customerID=${customerID }&endTime=${article.getEndTime()}
-								&maxPrice=${article.getMaxPrice()}&nowPrice=${article.getNowPrice()}" method="post" id="ipchal">
+								<form action="itemAddPriceAcion.it?it_no=${item.itemId}&memberID=${item.memberId}
+								&customerID=${customerID }&endTime=${item.endItemDate}
+								&maxPrice=${item.maxBidPrice}&nowPrice=${item.nowBidPrice}" method="post" id="ipchal">
 							<input type="text" id="price" name="price" value="" placeholder="입찰가 입력">
 							<input type="submit" id="addprice" name="addprice" value="입찰">
 							</form>
@@ -203,10 +204,10 @@ input[type=button]:hover {
 				</div>
 			</div>
 			<div style="border-bottom:1px solid #bcbcbc"><h4>판매자 정보</h4></div><br>
-			판매자 아이디 : ${article.getMemberID()}<br>
+			판매자 아이디 : ${item.memberId}<br>
 			<div style="border-top:1px solid #bcbcbc">
-				<c:url value="../item/modify.it" var="modify">
-					<c:param name="no" value="${no }" />
+				<c:url value="../items/edit" var="modify">
+					<c:param name="itemId" value="${item.itemId}" />
 				</c:url>
 				<a href="${modify }" style="width:100%;display:block;background:#e6e6e6;margin-top:10px;padding:8px;font-size:15px;border:1px solid #d6d6d6;">수정</a>
 			</div>
@@ -228,10 +229,10 @@ input[type=button]:hover {
 		
 		// 입찰 서브밋 제어문
 		$('#ipchal').submit(function(){
-			var now=${article.getNowPrice()}
-			var max=${article.getMaxPrice()} 
+			var now=${item.nowBidPrice}
+			var max=${item.maxBidPrice}
 			
-		if(${not empty sessionScope.memberID}){
+		if(${not empty memberId}){
 		
 		if($("#price").val()==""||$("#price").val()=="0"){
 			alert("입찰가를 입력해주세요");
@@ -256,15 +257,15 @@ input[type=button]:hover {
 		});
 		
 		$('#ipchal').submit(function(){
-			var now=${article.getNowPrice()}
-			var max=${article.getMaxPrice()} 
+			var now=${item.nowBidPrice}
+			var max=${item.maxBidPrice}
 		if(now>=max){
 			alert("낙찰되어 경매가 종료되었습니다.");
 			return false;
 		}
 		});
 		// 타이머 제어문
-		var countDownDate = new Date("${article.getEndTime()}").getTime();
+		var countDownDate = new Date("${item.endItemDate}").getTime();
 		var now = new Date().getTime();
 		if((countDownDate - now)>0){
 		var x = setInterval(function() { //1초마다 갱신되도록 함수 생성,실행
@@ -283,7 +284,7 @@ input[type=button]:hover {
 	                    url:"itemSuccessfulAction.it",
 	                    type:"post",
 	                    dataType:"html",
-	                    data:{"it_no":${article.getNo()},"memberID":"${article.getMemberID()}","endTime":"${article.getEndTime()}"},
+	                    data:{"itemId":${item.itemId},"memberId":"${item.memberId}","endItemDate":"${item.endItemDate}"},
 	                    success: function(data){
 	                           alert("경매가 종료되었습니다.");
 	                           clearInterval(x);

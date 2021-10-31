@@ -32,8 +32,15 @@ public class MemberController {
 
 
     @PostMapping("/join")
-    public String join(Member member){
-        memberService.join(member);
+    public String join(Member member, HttpServletRequest request){
+        Member joinMember = memberService.join(member);
+
+        if(joinMember == null){
+            return "redirect:/join";
+        }
+
+        HttpSession session = request.getSession();
+        session.setAttribute(SessionConst.LOGIN_MEMBER, joinMember.getMemberId());
         return "redirect:/home";
     }
 
@@ -58,7 +65,7 @@ public class MemberController {
         //로그인 세션생성
         //세션이 있으면, 이미 존재하는 세션 반환 / 없으면 신규세션 생성해서 반환
         HttpSession session = request.getSession();
-        session.setAttribute(SessionConst.LOGIN_MEMBER, member);
+        session.setAttribute(SessionConst.LOGIN_MEMBER, member.getMemberId());
 
         return "redirect:"+session.getAttribute("redirectURI");
     }

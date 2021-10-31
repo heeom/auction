@@ -5,6 +5,7 @@ import com.ddang.auction.items.repository.ItemRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,7 @@ public class ItemService {
     }
 
     public Item addItem(Item item){
+        setDefaultItemInfo(item);
         return itemRepository.save(item);
     }
 
@@ -37,4 +39,9 @@ public class ItemService {
     public void delete(int itemNo){
     }
 
+    private void setDefaultItemInfo(Item item) {
+        item.setNowBidPrice(item.getFirstBidPrice());
+        item.setWinningBidPrice(item.getFirstBidPrice());
+        item.setAddItemDate(LocalDateTime.now().toString());
+    }
 }

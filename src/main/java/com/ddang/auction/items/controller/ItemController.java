@@ -4,7 +4,9 @@ import com.ddang.auction.items.domain.Item;
 import com.ddang.auction.items.service.ItemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 
 @Slf4j
 @Controller
@@ -17,9 +19,10 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @GetMapping("/{itemNo}")
-    public String Item(@PathVariable Long itemId){
-        itemService.findItem(itemId);
+    @GetMapping("/{itemId}")
+    public String Item(@PathVariable Long itemId, Model model){
+        Item item = itemService.findItem(itemId).get();
+        model.addAttribute("item", item);
         return "/items/view";
     }
 
@@ -35,8 +38,9 @@ public class ItemController {
     }
 
     @PostMapping("/create")
-    public String createItem(Item item){
-        itemService.addItem(item);
+    public String createItem(Item item, Model model){
+        Item saveItem = itemService.addItem(item);
+        model.addAttribute("item", saveItem);
         return "items/view";
     }
 

@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:set var="member" value="${sessionScope.loginMember}"/>
+<c:set var="memberId" value="${sessionScope.loginMember}"/>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -102,8 +102,6 @@
 			}
 				}
 
-
-
 		</script>
 	</head>
 	<body>
@@ -114,24 +112,24 @@
 				<div class="logo"><a href="/home"><img src="/img/logo.png"></a></div>
 				<nav>
 					<ul>
-						<li><a href="#">실시간경매</a></li>
-						<li><a href="#">땅땅샵</a></li>
-						<li class="btn_more">더보기</li>
+						<li><a href="/items">실시간 경매</a></li>
+<%--						<li><a href="/items/create">상품등록</a></li>--%>
+<%--						<li class="btn_more">더보기</li>--%>
 					</ul>
 				</nav>
 				<div class="btn_header">
 					<c:choose>
-						<c:when test="${member.memberId eq null}">
+						<c:when test="${memberId eq null}">
 							<a href="#"><button>땅땅땅 이용방법</button></a>
 						</c:when>
 						<c:otherwise>
-							<a href="#"><button>출품하기</button></a>
+							<a href="/items/create"><button>출품하기</button></a>
 						</c:otherwise>
 					</c:choose>
 				</div>
 				<div class="member_section">
 					<c:choose>
-						<c:when test="${member.memberId eq null}">
+						<c:when test="${memberId eq null}">
 							<span>
 								<a class="dig_login" href="/members/login">로그인</a>
 								<span class="login_tab load_login_tab">

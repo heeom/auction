@@ -2,6 +2,7 @@ package com.ddang.auction.items.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
  *
  */
 @Getter @Setter
+@ToString
 public class Item {
     private long itemId;
     private String itemName;

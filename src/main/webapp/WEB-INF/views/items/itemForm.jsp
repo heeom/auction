@@ -2,22 +2,25 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../home/head.jsp" />
+<c:set var="memberId" value="${sessionScope.loginMember}"/>
 
 <link rel="stylesheet" href="/css/item.css">
 <link rel="stylesheet" href="/css/summernote/summernote-lite.min.css">
-<link rel="stylesheet" href="/css/datepicker/datepicker.min.css">
+<%--<link rel="stylesheet" href="/css/datepicker/datepicker.min.css">--%>
+<%--<script src="/js/datepicker/datepicker.min.js"></script>--%>
+<%--<script src="/js/datepicker/datepicker.ko.js"></script>--%>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="./jquery-ui-1.12.1/datepicker-ko.js"></script>
 <script src="/js/summernote/summernote-lite.min.js"></script>
-<script src="/js/datepicker/datepicker.min.js"></script>
-<script src="/js/datepicker/datepicker.ko.js"></script>
 <script src="/js/jquery.number.min.js"></script>
-
-<c:set var="ticketCount" value="${ticketCount }" />
 
 <div class="item_write">
 	<div class="title">출품 등록하기</div>
-	<form action="writePro.it" method="post" enctype="multipart/form-data" name="fi" onsubmit="return writeForm_submit();">
-		<input type="text" class="subject" name="subject" maxlength="55" placeholder="상품명" required="required">
-		<select class="category" name="category">
+	<form action="/items/create" method="post" enctype="multipart/form-data" name="fi" onsubmit="return writeForm_submit();">
+		<input type="text" class="subject" name="itemName" maxlength="55" placeholder="상품명" required="required">
+		<select class="category" name="itemCategory">
 			<option value="">카테고리</option>
 			<option value="의류">의류</option>
 			<option value="앤티크">앤티크</option>
@@ -30,26 +33,16 @@
 			<option value="뷰티">뷰티</option>
 		</select>
 		<div class="info">
-			<input type="text" name="price_start" class="price_formatting" placeholder="시작가(원)" maxlength="11" required="required">
-			<input type="text" name="price_end" class="price_formatting" placeholder="낙찰가(원)" maxlength="11" required="required">
+			<input type="number" name="firstBidPrice" class="price_formatting" placeholder="시작가(원)" maxlength="11" required="required">
+			<input type="number" name="maxBidPrice" class="price_formatting" placeholder="낙찰가(원)" maxlength="11" required="required">
+			<input type="text" name="memberId" hidden="true" value="${memberId}"/>
 			<span class="delivery">
-				<input type="text" name="price_delivery" class="price_formatting" maxlength="6" placeholder="배송비(원)" required="required">
+				<input type="number" name="deliveryPrice" class="price_formatting" maxlength="6" placeholder="배송비(원)" required="required">
 				<button onclick="freeDelivery();return false;">무료배송</button>
 			</span>
-			<input type="datetime" class="datepicker-here" data-language="ko" data-timepicker="true" name="datetime_end" placeholder="마감일시" data-position="left top" maxlength="20" readonly="readonly" required="required">
+			<input type="datetime" class="datepicker-here" data-language="ko" data-timepicker="true" name="endItemDate" placeholder="마감일시" data-position="left top" maxlength="20" readonly="readonly" required="required">
 		</div>
-		<textarea id="summernote" name="content"></textarea>
-		<div class="ticket">
-			<c:choose>
-				<c:when test="${ticketCount.getTicket() == 0 }">
-					<span>땅땅티켓을 보유하고 있지 않습니다. <strong>땅땅샵에서 티켓을 구매하여 리스트 최상단에 효율적으로 경매를 진행</strong>해보세요!</span>
-				</c:when>
-				<c:otherwise>
-					<span class="chk_ticket"><input type="checkbox" id="chk_ticket" name="ticket" value="1"><label for="chk_ticket">사용하기</label></span>
-					<span>땅땅티켓 <strong><c:out value="${ticketCount.getTicket() }" /></strong>개를 보유하고 있습니다.</span>
-				</c:otherwise>
-			</c:choose>
-		</div>
+		<textarea id="summernote" name="itemContent"></textarea>
 		<div id="guide">
 			<p class="word">반드시 읽어보세요.</p>
 			<ul>
@@ -87,7 +80,7 @@
 		});
 	});
 	
-	var checkUnload = 1;
+	let checkUnload = 1;
 	window.onbeforeunload = function() {
 		if(checkUnload) {
 			return "이 페이지를 벗어나면 작성중인 글은 사라집니다.";
@@ -96,27 +89,27 @@
 	
 	function writeForm_submit() {
 		checkUnload = 0;
-		
-		if(!fi.subject.value) {
+
+		if(!fi.itemName.value) {
 			alert("상품명을 입력해주세요.");
-			fi.subject.focus();
+			fi.itemName.focus();
 			return false;
 		} else if(!fi.category.value) {
 			alert("카테고리를 선택해주세요.");
 			return false;
-		} else if(!fi.price_start.value) {
+		} else if(!fi.firstBidPrice.value) {
 			alert("경매 시작가를 입력해주세요.");
-			fi.price_start.focus();
+			fi.firstBidPrice.focus();
 			return false;
-		} else if(!fi.price_end.value) {
+		} else if(!fi.maxBidPrice.value) {
 			alert("경매 낙찰가를 입력해주세요.");
-			fi.price_end.focus();
+			fi.maxBidPrice.focus();
 			return false;
-		} else if(!fi.price_delivery.value) {
+		} else if(!fi.deliveryPrice.value) {
 			alert("배송비를 입력해주세요.");
-			fi.price_delivery.focus();
+			fi.deliveryPrice.focus();
 			return false;
-		} else if(!fi.datetime_end.value) {
+		} else if(!fi.endItemDate.value) {
 			alert("마감일시를 입력해주세요.");
 			return false;
 		}
@@ -125,22 +118,22 @@
 	}
 	
 	function freeDelivery() {
-		fi.price_delivery.value = 0;
+		fi.deliveryPrice.value = 0;
 		alert("무료 배송을 위해 배송비를 0원으로 설정하였습니다.");
 		return false;
 	}
 	
 	// air datepicker
 	$(function() {
-		var minDate = new Date();
-		var maxDate = new Date(minDate.getFullYear(), minDate.getMonth()+2, minDate.getDay());
+		let minDate = new Date();
+		let maxDate = new Date(minDate.getFullYear(), minDate.getMonth()+2, minDate.getDay());
 		
-		$(".datetime_end").datepicker();
+		$(".endItemDate").datepicker();
 		$('.datepicker-here').datepicker({
 		    language: 'ko',
-		    minDate: minDate,
+			minDate: minDate,
 			maxDate: maxDate,
-		    dateFormat: "yyyy-mm-dd"
+		    dateFormat: "yy-mm-dd"
 		})
 		
 		$('.price_formatting').number(true).on("keyup", function() {
