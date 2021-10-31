@@ -66,4 +66,6 @@ Intellij
 
 ### [추가]    
 1. 관리자 권한  
-    스프링 시큐리티  
+    spring security  
+2. 중복닉네임, 이메일, 아이디 검증    
+    validation  
