@@ -69,3 +69,5 @@ Intellij
     spring security  
 2. 중복닉네임, 이메일, 아이디 검증    
     validation  
+3. 상품등록  
+    이미지 파일 등록  
