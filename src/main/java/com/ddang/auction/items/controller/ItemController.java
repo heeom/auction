@@ -1,11 +1,14 @@
 package com.ddang.auction.items.controller;
 
 import com.ddang.auction.items.domain.Item;
+import com.ddang.auction.items.domain.PageCriteria;
 import com.ddang.auction.items.service.ItemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @Slf4j
@@ -27,8 +30,12 @@ public class ItemController {
     }
 
     @GetMapping()
-    public String ItemList(){
-        itemService.findItemList();
+    public String ItemList(PageCriteria pageCriteria, Model model){
+        pageCriteria = itemService.getPageInfo(pageCriteria);
+        List<Item> itemList = itemService.findItemList(pageCriteria);
+
+        model.addAttribute("itemList", itemList);
+        model.addAttribute("pageCriteria", pageCriteria);
         return "/items/list";
     }
 

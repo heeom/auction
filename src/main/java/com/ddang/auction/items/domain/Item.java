@@ -5,7 +5,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.math.BigInteger;
-import java.time.LocalDateTime;
 
 /**
  * firstBidPrice : 경매 시작가
@@ -30,4 +29,5 @@ public class Item {
     private String itemContent;
     private String itemCategory;
     private String itemThumbnail;
+
 }

@@ -2,6 +2,7 @@ package com.ddang.auction.items.service;
 
 import com.ddang.auction.items.domain.Item;
 import com.ddang.auction.items.repository.ItemRepository;
+import com.ddang.auction.items.domain.PageCriteria;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -60,8 +61,29 @@ class ItemServiceTest {
 
     @Test
     void findItemList() {
-        List<Item> itemList = itemService.findItemList();
+        PageCriteria pageCriteria = new PageCriteria();
 
-        itemList.stream().map(Item::getItemName).forEach(System.out::println);
+        PageCriteria findPageCriteria = itemService.getPageInfo(pageCriteria);
+        List<Item> itemList = itemService.findItemList(pageCriteria);
+
+        System.out.println(findPageCriteria.toString());
+        itemList.stream().map(Item::getItemId).forEach(System.out::println);
+    }
+
+    @Test
+    void getPageInfo(){
+        PageCriteria pageCriteria = new PageCriteria();
+        pageCriteria.setPageSize(10);
+        pageCriteria.setCurrentPageNum(1);
+        pageCriteria.setTotalRecords(1);
+        pageCriteria.setRecordsPerPage(10);
+
+        PageCriteria findPageCriteria = itemService.getPageInfo(pageCriteria);
+
+
+        assertThat(findPageCriteria.getStartRecord()).isEqualTo(1);
+        assertThat(findPageCriteria.getStartPage()).isEqualTo(1);
+        assertThat(findPageCriteria.getEndPage()).isEqualTo(1);
+
     }
 }

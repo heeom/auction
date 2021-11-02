@@ -2,6 +2,7 @@ package com.ddang.auction.items.service;
 
 import com.ddang.auction.items.domain.Item;
 import com.ddang.auction.items.repository.ItemRepository;
+import com.ddang.auction.items.domain.PageCriteria;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -28,8 +29,13 @@ public class ItemService {
         return itemRepository.findByItemId(itemId);
     }
 
-    public List<Item> findItemList(){
-        return itemRepository.findAllItems();
+    public List<Item> findItemList(PageCriteria pageCriteria){
+        return itemRepository.findAllItems(pageCriteria);
+    }
+
+    public PageCriteria getPageInfo(PageCriteria pageCriteria) {
+        setDefaultPageCriteria(pageCriteria);
+        return itemRepository.findPages(pageCriteria);
     }
 
     public Item editItem(Item item){
@@ -43,5 +49,18 @@ public class ItemService {
         item.setNowBidPrice(item.getFirstBidPrice());
         item.setWinningBidPrice(item.getFirstBidPrice());
         item.setAddItemDate(LocalDateTime.now().toString());
+    }
+
+    /**
+     * @param pageCriteria
+     * 상품목록 첫페이지 정보 세팅
+     */
+
+    private void setDefaultPageCriteria(PageCriteria pageCriteria) {
+        if(pageCriteria.getCurrentPageNum() == null){
+            pageCriteria.setCurrentPageNum(1);
+        }
+        pageCriteria.setRecordsPerPage(10);
+        pageCriteria.setPageSize(10);
     }
 }

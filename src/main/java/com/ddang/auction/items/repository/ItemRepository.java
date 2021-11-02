@@ -1,6 +1,7 @@
 package com.ddang.auction.items.repository;
 
 import com.ddang.auction.items.domain.Item;
+import com.ddang.auction.items.domain.PageCriteria;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,5 +15,7 @@ public interface ItemRepository {
 
     Optional<Item> findByItemId(Long itemId);
 
-    List<Item> findAllItems();
+    List<Item> findAllItems(PageCriteria pageCriteria);
+
+    PageCriteria findPages(PageCriteria pageCriteria);
 }

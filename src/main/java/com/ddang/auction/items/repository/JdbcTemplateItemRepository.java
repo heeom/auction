@@ -1,15 +1,18 @@
 package com.ddang.auction.items.repository;
 
 import com.ddang.auction.items.domain.Item;
+import com.ddang.auction.items.domain.PageCriteria;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.math.BigInteger;
+import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,8 +61,15 @@ public class JdbcTemplateItemRepository implements ItemRepository{
     }
 
     @Override
-    public List<Item> findAllItems() {
-        return jdbcTemplate.query("select * from item order by it_itemId", itemRowMapper());
+    public List<Item> findAllItems(PageCriteria pageCriteria) {
+        return jdbcTemplate.query("select * from item order by it_itemId limit ?, ?", itemRowMapper(), pageCriteria.getStartRecord(), pageCriteria.getRecordsPerPage());
+    }
+
+    @Override
+    public PageCriteria findPages(PageCriteria pageCriteria) {
+        Integer totalRecords = jdbcTemplate.queryForObject("select count(it_itemId) from item", Integer.class);
+        pageCriteria.setTotalRecords(totalRecords);
+        return pageCriteria;
     }
 
     @Override

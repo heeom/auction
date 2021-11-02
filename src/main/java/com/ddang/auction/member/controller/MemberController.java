@@ -46,7 +46,7 @@ public class MemberController {
 
     @GetMapping("/login")
     public String loginForm(HttpServletRequest request,
-            @RequestParam(defaultValue = "/") String redirectURI){
+            @RequestParam(defaultValue = "/home") String redirectURI){
 
         HttpSession session = request.getSession();
         session.setAttribute("redirectURI", redirectURI);
