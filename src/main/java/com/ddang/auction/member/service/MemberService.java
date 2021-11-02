@@ -60,4 +60,12 @@ public class MemberService {
           return memberRepository.findById(id);
      }
 
+     public boolean checkMemberIdExist(String memberId) {
+         return memberRepository.findByMemberId(memberId).isPresent();
+     }
+
+     public boolean checkNickNameExist(String nickName){
+          return memberRepository.findByNickName(nickName).isPresent();
+     }
+
 }

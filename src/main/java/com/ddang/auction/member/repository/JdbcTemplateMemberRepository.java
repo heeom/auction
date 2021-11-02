@@ -2,6 +2,7 @@ package com.ddang.auction.member.repository;
 
 import com.ddang.auction.member.domain.Member;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -53,6 +54,12 @@ public class JdbcTemplateMemberRepository implements MemberRepository{
     }
 
     @Override
+    public Optional<Member> findByNickName(String nickName) {
+        List<Member> result = jdbcTemplate.query("select * from member where mb_nickName=?", memberRowMapper(), nickName);
+        return result.stream().findAny();
+    }
+
+    @Override
     public List<Member> findAll() {
         return jdbcTemplate.query("select * from member", memberRowMapper());
     }
@@ -69,4 +76,5 @@ public class JdbcTemplateMemberRepository implements MemberRepository{
             return member;
         };
     }
+
 }

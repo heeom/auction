@@ -15,6 +15,10 @@ public interface MemberRepository {
     //회원ID 조회
     Optional<Member> findByMemberId(String memberId);
 
+    Optional<Member> findByNickName(String nickName);
+
     //회원목록조회
     List<Member> findAll();
+
+
 }

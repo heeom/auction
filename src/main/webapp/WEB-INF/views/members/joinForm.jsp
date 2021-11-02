@@ -75,13 +75,13 @@
 						rf.memberId.focus();
 						return false;
 					} else {
-						var register_id = $('#register_id').val();
+						let memberId = $('#register_id').val();
 						
 						$.ajax({
-							url: '../member/duplicate?register_id=' + register_id,
+							url: '/members/duplicate/memberId/' + memberId,
 							type: 'get',
 							success: function(data) {
-								if(data == 1) {
+								if(data) {
 									document.getElementById("result_id").innerHTML = "누군가 이미 사용중인 아이디입니다 :(";
 									document.getElementById("result_id").style.color = '#fc5230';
 									rf.memberId.focus();
@@ -111,13 +111,13 @@
 						rf.nickName.focus();
 						return false;
 					} else {
-						var register_nick = $('#register_nick').val();
+						let nickName = $('#register_nick').val();
 						
 						$.ajax({
-							url: '../member/duplicationCheckPro.me?register_nick=' + register_nick,
+							url: '/members/duplicate/nickName/' + nickName,
 							type: 'get',
 							success: function(data) {
-								if(data == 1) {
+								if(data) {
 									document.getElementById("result_nick").innerHTML = "누군가 이미 사용중인 닉네임입니다 :(";
 									document.getElementById("result_nick").style.color = '#fc5230';
 									rf.memberId.focus();

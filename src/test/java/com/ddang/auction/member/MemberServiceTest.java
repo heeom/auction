@@ -4,13 +4,14 @@ import com.ddang.auction.member.domain.LoginMember;
 import com.ddang.auction.member.domain.Member;
 import com.ddang.auction.member.repository.MemberRepository;
 import com.ddang.auction.member.service.MemberService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Transactional
@@ -34,7 +35,7 @@ public class MemberServiceTest {
 
         //then
         Member findMember = memberService.findOne(savedMember.getId()).get();
-        Assertions.assertThat(member.getMemberId()).isEqualTo(findMember.getMemberId());
+        assertThat(member.getMemberId()).isEqualTo(findMember.getMemberId());
     }
 
     @Test
@@ -49,6 +50,6 @@ public class MemberServiceTest {
 
         //then 
         //로그인 성공
-        Assertions.assertThat(loginMember.getMemberId()).isEqualTo(member.getMemberId());
+        assertThat(loginMember.getMemberId()).isEqualTo(member.getMemberId());
     }
 }
