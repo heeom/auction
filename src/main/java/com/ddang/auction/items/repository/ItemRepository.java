@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface ItemRepository {
     Item save(Item item);
 
-    Item update(Item item);
+    int update(Item item);
 
     void delete(int itemNo);
 

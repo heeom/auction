@@ -4,9 +4,11 @@ import com.ddang.auction.member.domain.LoginMember;
 import com.ddang.auction.member.domain.Member;
 import com.ddang.auction.member.domain.SessionConst;
 import com.ddang.auction.member.service.MemberService;
+import com.ddang.auction.web.argumentresolver.Login;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +32,7 @@ public class MemberController {
 
 
     @PostMapping("/join")
-    public String join(Member member, HttpServletRequest request){
+    public String join(@Validated Member member, HttpServletRequest request){
         Member joinMember = memberService.join(member);
 
         if(joinMember == null){
@@ -47,7 +49,7 @@ public class MemberController {
             @RequestParam(defaultValue = "/home") String redirectURI){
 
         HttpSession session = request.getSession();
-        session.setAttribute("redirectURI", redirectURI);
+        session.setAttribute(SessionConst.REDIRECT_URI, redirectURI);
 
         return "members/loginForm";
     }
@@ -59,13 +61,10 @@ public class MemberController {
         if (member == null){
             return "members/loginForm";
         }
-
-        //로그인 세션생성
-        //세션이 있으면, 이미 존재하는 세션 반환 / 없으면 신규세션 생성해서 반환
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         session.setAttribute(SessionConst.LOGIN_MEMBER, member.getMemberId());
 
-        return "redirect:"+session.getAttribute("redirectURI");
+        return "redirect:"+session.getAttribute(SessionConst.REDIRECT_URI);
     }
 
     @GetMapping("/duplicate/memberId/{memberId}")

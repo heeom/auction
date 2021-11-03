@@ -71,9 +71,11 @@ public class JdbcTemplateItemRepository implements ItemRepository{
     }
 
     @Override
-    public Item update(Item item) {
-        return null;
+    public int update(Item item) {
+        return jdbcTemplate.update("update item set it_nowBidPrice = ? where it_itemId = ?", item.getNowBidPrice(), item.getItemId());
     }
+
+
 
     @Override
     public void delete(int itemNo) {
@@ -95,7 +97,7 @@ public class JdbcTemplateItemRepository implements ItemRepository{
             item.setDeliveryPrice(rs.getInt("it_deliveryPrice"));
             item.setItemContent(rs.getString("it_itemContent"));
             item.setItemCategory(rs.getString("it_itemCategory"));
-            item.setItemThumbnail("it_itemThumbnail");
+//            item.setItemThumbnail("it_itemThumbnail");
             return item;
         };
     }

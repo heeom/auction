@@ -3,6 +3,7 @@ package com.ddang.auction.items.domain;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigInteger;
 
@@ -28,6 +29,6 @@ public class Item {
     private Integer deliveryPrice;
     private String itemContent;
     private String itemCategory;
-    private String itemThumbnail;
+    private MultipartFile itemThumbnail;
 
 }

@@ -1,4 +1,4 @@
-package com.ddang.auction.member.Interceptor;
+package com.ddang.auction.web.Interceptor;
 
 
 import com.ddang.auction.member.domain.SessionConst;

@@ -2,7 +2,6 @@ package com.ddang.auction.member.repository;
 
 import com.ddang.auction.member.domain.Member;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;

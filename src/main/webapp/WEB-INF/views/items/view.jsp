@@ -3,16 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../home/head.jsp" />
 
-<c:set var="no" value="${param.no }" />
-<c:set var="strangerID" value="${strangerID }" />
-<c:set var="customerID" value="${customerID }" />
-
 <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
 
-<c:set var="article" value="${article}"/>
-<c:set var="orderarticle" value="${orderarticle}"/>
-
-<c:set var="memberID" value="${sessionScope.memberID}" />
+<c:set var="memberId" value="${sessionScope.loginMember}" />
 <c:set var="item" value="${item}"/>
 
 <style>
@@ -185,10 +178,11 @@ input[type=button]:hover {
 							<br>
 							<h3 class="a" style="font-size: 2em">입찰가
 								직접 입력</h3><span style="color:red;">※(주의하세요!)현재 입찰가에 금액이 더해집니다.</span><br>
-								<form action="itemAddPriceAcion.it?it_no=${item.itemId}&memberID=${item.memberId}
-								&customerID=${customerID }&endTime=${item.endItemDate}
-								&maxPrice=${item.maxBidPrice}&nowPrice=${item.nowBidPrice}" method="post" id="ipchal">
-							<input type="text" id="price" name="price" value="" placeholder="입찰가 입력">
+								<form action="/bid" method="post" name="bidItem">
+									<input type="hidden" name="itemId" value="${item.itemId}"/>
+							<input type="hidden" name="buyerId" value="${memberId}"/>
+							<input type="hidden" name="sellerId" value="${item.memberId}"/>
+							<input type="text" id="price" name="addBidPrice" value="" placeholder="입찰가 입력">
 							<input type="submit" id="addprice" name="addprice" value="입찰">
 							</form>
 						</div>

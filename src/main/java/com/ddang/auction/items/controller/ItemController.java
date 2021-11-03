@@ -46,6 +46,9 @@ public class ItemController {
 
     @PostMapping("/create")
     public String createItem(Item item, Model model){
+
+        log.info("multi-part : {}", item.getItemContent());
+
         Item saveItem = itemService.addItem(item);
         model.addAttribute("item", saveItem);
         return "items/view";
