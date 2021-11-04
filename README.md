@@ -17,8 +17,7 @@ https://devswim.tistory.com/
 
 Spring Boot 2.5.6  
 gradle  
-Java 11  
-Packaging: War  
+Java 11   
 lombok  
 Jsp  
 Spring JDBC Template, MySQL  
