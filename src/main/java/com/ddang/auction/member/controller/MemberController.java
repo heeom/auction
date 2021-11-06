@@ -4,7 +4,6 @@ import com.ddang.auction.member.domain.LoginMember;
 import com.ddang.auction.member.domain.Member;
 import com.ddang.auction.member.domain.SessionConst;
 import com.ddang.auction.member.service.MemberService;
-import com.ddang.auction.web.argumentresolver.Login;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

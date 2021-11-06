@@ -25,8 +25,11 @@ public class BidService {
         Item item = itemRepository.findByItemId(bidItem.getItemId()).get();
         //현재가 계산해서 저장
         setNowBidPrice(bidItem, item);
-        //낙찰시
-        saveWinningBidToOrder(item, bidItem);
+        //낙찰 성공
+        if(isSuccessfulBid(item)){ //주문내역 저장
+            Long bidId = bidRepository.saveWinningBid(bidItem).getBidId();
+            log.info("bidID : {}", bidId);
+        }
         //입찰정보 저장, 변경된 상품내역 update
         Item updateItem = saveBidInfoUpdateItem(bidItem, item);
         return updateItem;
@@ -37,13 +40,7 @@ public class BidService {
         bidItem.setNowBidPrice(nowBidPrice);
         item.setNowBidPrice(nowBidPrice);
     }
-    
-    private void saveWinningBidToOrder(Item item, BidItem bidItem) {
-        if(isSuccessfulBid(item)){
-            //주문내역 저장
-            bidRepository.saveWinningBid(bidItem);
-        }
-    }
+
 
     private boolean isSuccessfulBid(Item item) {
         return !(item.getNowBidPrice().compareTo(item.getMaxBidPrice()) == -1);

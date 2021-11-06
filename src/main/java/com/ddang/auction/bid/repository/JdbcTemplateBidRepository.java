@@ -1,7 +1,7 @@
 package com.ddang.auction.bid.repository;
 
 import com.ddang.auction.bid.domain.BidItem;
-import com.ddang.auction.items.domain.Item;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -13,7 +13,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+@Slf4j
 @Repository
 public class JdbcTemplateBidRepository implements BidRepository{
 
@@ -42,9 +42,9 @@ public class JdbcTemplateBidRepository implements BidRepository{
     }
 
     @Override
-    public void saveWinningBid(BidItem bidItem) {
+    public BidItem saveWinningBid(BidItem bidItem) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
-        jdbcInsert.withTableName("order").usingGeneratedKeyColumns("or_orderId");
+        jdbcInsert.withTableName("orderhistory").usingGeneratedKeyColumns("or_orderId");
 
         Map<String, Object> parameters = new HashMap<>();
 
@@ -56,6 +56,7 @@ public class JdbcTemplateBidRepository implements BidRepository{
 
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
         bidItem.setBidId(key.longValue());
+        return bidItem;
     }
 
     @Override
@@ -79,6 +80,19 @@ public class JdbcTemplateBidRepository implements BidRepository{
             bidItem.setBidDate(rs.getTimestamp("bh_bidDate").toString());
             return bidItem;
         };
+    }
+
+    private RowMapper<BidItem> orderItemRowMapper(){
+        return (rs, rowNum) -> {
+            BidItem bidItem = new BidItem();
+            bidItem.setBidId(rs.getLong("or_orderId"));
+            bidItem.setSellerId(rs.getString("or_sellerId"));
+            bidItem.setBuyerId(rs.getString("or_buyerId"));
+            bidItem.setNowBidPrice(new BigInteger(rs.getString("or_winningBidPrice")));
+            bidItem.setBidDate(rs.getTimestamp("or_orderDate").toString());
+            return bidItem;
+        };
+
     }
 
 }

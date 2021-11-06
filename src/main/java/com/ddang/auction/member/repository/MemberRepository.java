@@ -19,6 +19,4 @@ public interface MemberRepository {
 
     //회원목록조회
     List<Member> findAll();
-
-
 }

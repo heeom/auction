@@ -10,5 +10,5 @@ public interface BidRepository {
     List<BidItem> findByItemId(Long itemId);
     List<BidItem> findByMember(String memberId);
 
-    void saveWinningBid(BidItem bidItem);
+    BidItem saveWinningBid(BidItem bidItem);
 }
