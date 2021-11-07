@@ -178,7 +178,7 @@ input[type=button]:hover {
 							<br>
 							<h3 class="a" style="font-size: 2em">입찰가
 								직접 입력</h3><span style="color:red;">※(주의하세요!)현재 입찰가에 금액이 더해집니다.</span><br>
-								<form action="/bid" method="post" name="bidItem">
+								<form action="/bid" method="post" name="bidItem" id="bid">
 									<input type="hidden" name="itemId" value="${item.itemId}"/>
 							<input type="hidden" name="buyerId" value="${memberId}"/>
 							<input type="hidden" name="sellerId" value="${item.memberId}"/>
@@ -222,7 +222,7 @@ input[type=button]:hover {
 		});
 		
 		// 입찰 서브밋 제어문
-		$('#ipchal').submit(function(){
+		$('#bid').submit(function(){
 			var now=${item.nowBidPrice}
 			var max=${item.maxBidPrice}
 			
@@ -250,7 +250,7 @@ input[type=button]:hover {
 		
 		});
 		
-		$('#ipchal').submit(function(){
+		$('#bid').submit(function(){
 			var now=${item.nowBidPrice}
 			var max=${item.maxBidPrice}
 		if(now>=max){
@@ -264,7 +264,7 @@ input[type=button]:hover {
 		if((countDownDate - now)>0){
 		var x = setInterval(function() { //1초마다 갱신되도록 함수 생성,실행
 			var now = new Date().getTime(); // 오늘 날짜 등록 
-			var distance = countDownDate - now; // 종료일자에서 현재일자를 뺀 시간 
+			var distance = countDownDate - now; // 종료일자에서 현재일자를 뺀 시간
 			var d = Math.floor(distance / (1000 * 60 * 60 * 24));
 			var h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); 
 			var m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)); 
@@ -273,29 +273,25 @@ input[type=button]:hover {
 			document.getElementById("d-day").innerHTML = "경매종료까지 " + d +"일 " + h + "시간 " + m + "분 " + s + "초"; 
 			
 			if(distance<=0){
-		
 				$.ajax({
-	                    url:"itemSuccessfulAction.it",
+	                    url:"/bid/end",
 	                    type:"post",
 	                    dataType:"html",
-	                    data:{"itemId":${item.itemId},"memberId":"${item.memberId}","endItemDate":"${item.endItemDate}"},
+	                    data:{"itemId":${item.itemId}},
 	                    success: function(data){
 	                           alert("경매가 종료되었습니다.");
 	                           clearInterval(x);
 	                    }
 				 });
-				 
 				alert("마감된 경매입니다.");
 				document.getElementById("d-day").innerHTML = "종료된 경매";
 			
-			$('#ipchal').submit(function(){
+			$('#bid').submit(function(){
 			if(distance<=0){
 				alert("경매가 종료되었습니다.");
 				return false;
 			}
 			});
-			
-			
 		}
 		});
 		}else{

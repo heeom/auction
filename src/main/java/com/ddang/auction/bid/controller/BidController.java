@@ -29,4 +29,10 @@ public class BidController {
         model.addAttribute("item", item);
         return "items/view";
     }
+
+    @PostMapping("/end")
+    public String bidEnd(Long ItemId, Model model){
+        bidService.bidEnd(ItemId);
+        return "items/view";
+    }
 }

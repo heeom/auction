@@ -30,5 +30,5 @@ public class Item {
     private String itemContent;
     private String itemCategory;
     private MultipartFile itemThumbnail;
-
+    private Boolean isSuccess;
 }

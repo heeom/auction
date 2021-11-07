@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -26,13 +28,22 @@ public class BidService {
         //현재가 계산해서 저장
         setNowBidPrice(bidItem, item);
         //낙찰 성공
-        if(isSuccessfulBid(item)){ //주문내역 저장
-            Long bidId = bidRepository.saveWinningBid(bidItem).getBidId();
-            log.info("bidID : {}", bidId);
+        BidItem savedItem = saveSuccessfulBid(bidItem, item);
+        if(savedItem.getItemId() != null){
+            item.setIsSuccess(true);
+            item.setEndItemDate(savedItem.getBidDate());
         }
         //입찰정보 저장, 변경된 상품내역 update
         Item updateItem = saveBidInfoUpdateItem(bidItem, item);
         return updateItem;
+    }
+
+    private BidItem saveSuccessfulBid(BidItem bidItem, Item item) {
+        BidItem savedBiditem = new BidItem();
+        if(isSuccessfulBid(item)){ //주문내역 저장
+            savedBiditem = bidRepository.saveWinningBid(bidItem);
+        }
+        return savedBiditem;
     }
 
     private void setNowBidPrice(BidItem bidItem, Item item) {
@@ -56,7 +67,7 @@ public class BidService {
     }
 
     private Item updateItem(Item item) {
-        int updateCount = itemRepository.update(item);
+        int updateCount = itemRepository.updateNowBidPrice(item);
         if(updateCount>0){
             return item;
         }
@@ -64,4 +75,13 @@ public class BidService {
     }
 
 
+    public int bidEnd(Long itemId) {
+        Optional<Item> findItem = itemRepository.findByItemId(itemId);
+        Item item = findItem.stream().findAny().get();
+        if (!item.getIsSuccess()){
+            item.setIsSuccess(true);
+            return itemRepository.updateBidState(item);
+        }
+        return 0;
+    }
 }

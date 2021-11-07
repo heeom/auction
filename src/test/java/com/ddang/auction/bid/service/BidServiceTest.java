@@ -38,7 +38,7 @@ class BidServiceTest {
         item.setNowBidPrice(bidItem.getNowBidPrice());
         item.setNowBidPrice(new BigInteger("1200"));
 
-        int updateCount = itemRepository.update(item);
+        int updateCount = itemRepository.updateNowBidPrice(item);
         if (updateCount>0){
             System.out.println("update complete : " + updateCount);
         }

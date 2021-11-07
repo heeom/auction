@@ -11,4 +11,5 @@ public interface BidRepository {
     List<BidItem> findByMember(String memberId);
 
     BidItem saveWinningBid(BidItem bidItem);
+
 }

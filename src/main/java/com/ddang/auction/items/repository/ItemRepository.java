@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface ItemRepository {
     Item save(Item item);
 
-    int update(Item item);
+    int updateNowBidPrice(Item item);
 
     void delete(int itemNo);
 
@@ -18,4 +18,6 @@ public interface ItemRepository {
     List<Item> findAllItems(PageCriteria pageCriteria);
 
     PageCriteria findPages(PageCriteria pageCriteria);
+
+    int updateBidState(Item item);
 }
