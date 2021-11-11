@@ -22,7 +22,7 @@ public class BidService {
         this.bidRepository = bidRepository;
         this.itemRepository = itemRepository;
     }
-
+/**
     public Item addBidPrice(BidItem bidItem) {
         Item item = itemRepository.findByItemId(bidItem.getItemId()).get();
         //현재가 계산해서 저장
@@ -74,6 +74,13 @@ public class BidService {
         return null;
     }
 
+    private boolean isBidEnd(Long itemId){
+         Optional<Item> findItem = itemRepository.findByItemId(itemId);
+         Item item = findItem.stream().findAny().get();
+         return item.getIsSuccess();
+     }
+
+ **/
 
     public int bidEnd(Long itemId) {
         Optional<Item> findItem = itemRepository.findByItemId(itemId);
@@ -84,4 +91,54 @@ public class BidService {
         }
         return 0;
     }
+
+
+    //종료된 경매여부 조회
+
+    public Item bid(BidItem bidItem){
+        Item findItem = itemRepository.findByItemId(bidItem.getItemId()).stream().findAny().get();
+        if(!findItem.getIsSuccess()){
+            calculateNowBidPrice(bidItem);
+            Boolean isBidEnd = isSuccessfulBidThenSave(bidItem);
+            //입찰내역 저장
+            BidItem saveBidInfo = bidRepository.saveBidInfo(bidItem);
+            saveBidInfo.setIsSuccess(isBidEnd);
+            //현재가, 입찰내역 업데이트
+            int updateCount = itemRepository.updateNowBidPriceAndBidState(saveBidInfo);
+            if (updateCount > 0){
+                return itemRepository.findByItemId(bidItem.getItemId()).stream().findAny().get();
+            }
+        }
+        return findItem;
+    }
+
+    //현재입찰가 >= 최대입찰가 => 낙찰
+    private Boolean isSuccessfulBidThenSave(BidItem bidItem) {
+        if(isSuccessfulBid(bidItem)){
+            //낙찰/주문내역에 insert
+            return saveOrderHistory(bidItem);
+        }
+        return false;
+    }
+
+    private void calculateNowBidPrice(BidItem bidItem){
+        BigInteger newNowBidPrice = bidItem.getNowBidPrice().add(bidItem.getAddBidPrice());
+        bidItem.setNowBidPrice(newNowBidPrice);
+    }
+
+    private boolean isSuccessfulBid(BidItem bidItem){
+        if (bidItem.getNowBidPrice().compareTo(bidItem.getMaxBidPrice())>=1){
+            return true;
+        }
+        return false;
+    }
+
+    private Boolean saveOrderHistory(BidItem bidItem){
+        BidItem saveWinningBid = bidRepository.saveWinningBid(bidItem);
+        if(saveWinningBid.getBidId()!=null){
+            return true;
+        }
+        return false;
+    }
+
 }

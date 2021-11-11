@@ -49,6 +49,7 @@ public class ItemService {
         item.setNowBidPrice(item.getFirstBidPrice());
         item.setWinningBidPrice(item.getFirstBidPrice());
         item.setAddItemDate(LocalDateTime.now().toString());
+        item.setIsSuccess(Boolean.FALSE);
     }
 
     /**

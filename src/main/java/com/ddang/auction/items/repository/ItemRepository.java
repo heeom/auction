@@ -1,5 +1,6 @@
 package com.ddang.auction.items.repository;
 
+import com.ddang.auction.bid.domain.BidItem;
 import com.ddang.auction.items.domain.Item;
 import com.ddang.auction.items.domain.PageCriteria;
 
@@ -20,4 +21,6 @@ public interface ItemRepository {
     PageCriteria findPages(PageCriteria pageCriteria);
 
     int updateBidState(Item item);
+
+    int updateNowBidPriceAndBidState(BidItem bidItem);
 }

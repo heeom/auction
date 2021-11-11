@@ -100,7 +100,7 @@ input {
 	border: 1px solid #bcbcbc;
 }
 
-#addprice {
+#addPrice {
 	width: 30%;
 	height: 40px;
 	background-color: lightgray;
@@ -169,9 +169,9 @@ input[type=button]:hover {
 							<p style="font-size: 2em">
 							${item.maxBidPrice}원
 							</p><br>
-							<p class="a">
-								<strong style="font-size: 2em">${orderarticle}</strong>명 참여
-							</p>
+<%--							<p class="a">--%>
+<%--								<strong style="font-size: 2em">${orderarticle}</strong>명 참여--%>
+<%--							</p>--%>
 						</div>
 						<div class="myipchal">
 							<br>
@@ -182,8 +182,10 @@ input[type=button]:hover {
 									<input type="hidden" name="itemId" value="${item.itemId}"/>
 							<input type="hidden" name="buyerId" value="${memberId}"/>
 							<input type="hidden" name="sellerId" value="${item.memberId}"/>
+							<input type="hidden" name="nowBidPrice" value="${item.nowBidPrice}"/>
+							<input type="hidden" name="maxBidPrice" value="${item.maxBidPrice}"/>
 							<input type="text" id="price" name="addBidPrice" value="" placeholder="입찰가 입력">
-							<input type="submit" id="addprice" name="addprice" value="입찰">
+							<input type="submit" id="addPrice" name="addPrice" value="입찰">
 							</form>
 						</div>
 						<div>
@@ -195,6 +197,8 @@ input[type=button]:hover {
 							<input type="button" onclick="btn3()" id="btn3" value="15000">&nbsp&nbsp
 						</div>
 					</div>
+
+
 				</div>
 			</div>
 			<div style="border-bottom:1px solid #bcbcbc"><h4>판매자 정보</h4></div><br>
@@ -205,19 +209,19 @@ input[type=button]:hover {
 				</c:url>
 				<a href="${modify }" style="width:100%;display:block;background:#e6e6e6;margin-top:10px;padding:8px;font-size:15px;border:1px solid #d6d6d6;">수정</a>
 			</div>
-            <c:url value="../talk/list.ta" var="talk">
-               <c:param name="item_num" value="${no }" />
-               <c:param name="recv_mb_id" value="${strangerID }" />
-               <c:param name="type" value="send" />
-            </c:url>
-            <a href="${talk }" style="width:100%;display:block;background:#fc5230;color:#FFF;margin-top:10px;padding:8px;font-size:15px;border:1px solid #e23a18;">대화하기</a>
+<%--            <c:url value="../talk/list.ta" var="talk">--%>
+<%--               <c:param name="item_num" value="${no }" />--%>
+<%--               <c:param name="recv_mb_id" value="${strangerID }" />--%>
+<%--               <c:param name="type" value="send" />--%>
+<%--            </c:url>--%>
+<%--            <a href="${talk }" style="width:100%;display:block;background:#fc5230;color:#FFF;margin-top:10px;padding:8px;font-size:15px;border:1px solid #e23a18;">대화하기</a>--%>
 		</div>
 
 <div class="aa"></div>
 
 <script type="text/javascript">
 		
-		$('#addprice').click(function() {
+		$('#addPrice').click(function() {
    			location.reload();
 		});
 		
@@ -225,9 +229,15 @@ input[type=button]:hover {
 		$('#bid').submit(function(){
 			var now=${item.nowBidPrice}
 			var max=${item.maxBidPrice}
+			var isEnd=${item.isSuccess}
 			
 		if(${not empty memberId}){
-		
+
+		if(isEnd){
+			alert("종료된 경매입니다! ");
+			return false;
+		}
+
 		if($("#price").val()==""||$("#price").val()=="0"){
 			alert("입찰가를 입력해주세요");
 			return false;
@@ -238,8 +248,8 @@ input[type=button]:hover {
 			alert("현재입찰가가 최대가보다 높을수 없습니다");
 			return false;
 		}else if((Number($("#price").val())+now)>max){
-			alert("입찰가가 최대가를 초과하였습니다.");
-			return false;
+			// alert("입찰가가 최대가를 초과하였습니다.");
+			// return false;
 		}else if(now>=max){
 			alert("경매가 종료되었습니다.");
 			return false;
@@ -253,49 +263,43 @@ input[type=button]:hover {
 		$('#bid').submit(function(){
 			var now=${item.nowBidPrice}
 			var max=${item.maxBidPrice}
-		if(now>=max){
-			alert("낙찰되어 경매가 종료되었습니다.");
-			return false;
-		}
+			var isEnd=${item.isSuccess}
+
+			if(isEnd){
+				if(now>=max){
+					alert("낙찰되어 경매가 종료되었습니다.")
+				}else{
+					alert("경매가 종료되었습니다.")
+				}
+				return false;
+			}
 		});
 		// 타이머 제어문
 		var countDownDate = new Date("${item.endItemDate}").getTime();
 		var now = new Date().getTime();
-		if((countDownDate - now)>0){
-		var x = setInterval(function() { //1초마다 갱신되도록 함수 생성,실행
-			var now = new Date().getTime(); // 오늘 날짜 등록 
-			var distance = countDownDate - now; // 종료일자에서 현재일자를 뺀 시간
-			var d = Math.floor(distance / (1000 * 60 * 60 * 24));
-			var h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)); 
-			var m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)); 
-			var s = Math.floor((distance % (1000 * 60)) / 1000); 
-			//id가 d-day인 HTML코드에 내용 삽입
-			document.getElementById("d-day").innerHTML = "경매종료까지 " + d +"일 " + h + "시간 " + m + "분 " + s + "초"; 
-			
-			if(distance<=0){
-				$.ajax({
-	                    url:"/bid/end",
-	                    type:"post",
-	                    dataType:"html",
-	                    data:{"itemId":${item.itemId}},
-	                    success: function(data){
-	                           alert("경매가 종료되었습니다.");
-	                           clearInterval(x);
-	                    }
-				 });
-				alert("마감된 경매입니다.");
-				document.getElementById("d-day").innerHTML = "종료된 경매";
-			
-			$('#bid').submit(function(){
-			if(distance<=0){
-				alert("경매가 종료되었습니다.");
-				return false;
-			}
+		var distance = countDownDate - now
+		if(distance>0){
+			var x = setInterval(function() { //1초마다 갱신되도록 함수 생성,실행
+				var now = new Date().getTime(); // 오늘 날짜 등록
+				var distance = countDownDate - now; // 종료일자에서 현재일자를 뺀 시간
+				var d = Math.floor(distance / (1000 * 60 * 60 * 24));
+				var h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+				var m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+				var s = Math.floor((distance % (1000 * 60)) / 1000);
+				//id가 d-day인 HTML코드에 내용 삽입
+				document.getElementById("d-day").innerHTML = "경매종료까지 " + d +"일 " + h + "시간 " + m + "분 " + s + "초";
 			});
-		}
-		});
 		}else{
-			alert("종료된 경매입니다.");
+			$.ajax({
+				url:"/bid/end",
+				type: "POST",
+				dataType:"html",
+				data:{"itemId" : ${item.itemId}},
+				success: function(data){
+					alert("경매가 종료되었습니다. :)");
+					clearInterval(x);
+				}
+			});
 			document.getElementById("d-day").innerHTML = "종료된 경매";
 		}
 		

@@ -1,5 +1,6 @@
 package com.ddang.auction.items.repository;
 
+import com.ddang.auction.bid.domain.BidItem;
 import com.ddang.auction.items.domain.Item;
 import com.ddang.auction.items.domain.PageCriteria;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.math.BigInteger;
+import java.text.Bidi;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +47,7 @@ public class JdbcTemplateItemRepository implements ItemRepository{
         parameters.put("it_itemContent", item.getItemContent());
         parameters.put("it_itemCategory", item.getItemCategory());
         parameters.put("it_itemThumbnail", item.getItemThumbnail());
+        parameters.put("it_success", item.getIsSuccess());
 
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
         item.setItemId(key.longValue());
@@ -60,7 +63,7 @@ public class JdbcTemplateItemRepository implements ItemRepository{
 
     @Override
     public List<Item> findAllItems(PageCriteria pageCriteria) {
-        return jdbcTemplate.query("select * from item order by it_itemId limit ?, ?", itemRowMapper(), pageCriteria.getStartRecord(), pageCriteria.getRecordsPerPage());
+        return jdbcTemplate.query("select * from item order by it_itemId desc limit ?, ?", itemRowMapper(), pageCriteria.getStartRecord(), pageCriteria.getRecordsPerPage());
     }
 
     @Override
@@ -75,9 +78,15 @@ public class JdbcTemplateItemRepository implements ItemRepository{
         return jdbcTemplate.update("update item set it_nowBidPrice = ? where it_itemId = ?", item.getNowBidPrice(), item.getItemId());
     }
 
+
     @Override
     public int updateBidState(Item item) {
         return jdbcTemplate.update("update item set it_success=true where it_itemId = ?", item.getItemId());
+    }
+
+    @Override
+    public int updateNowBidPriceAndBidState(BidItem item) {
+        return jdbcTemplate.update("update item set it_nowBidPrice=?, it_success=?, it_endItemDate=? where it_itemId=?", item.getNowBidPrice(), item.getIsSuccess(), item.getBidDate(), item.getItemId());
     }
 
     @Override

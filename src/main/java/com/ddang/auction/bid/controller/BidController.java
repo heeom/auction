@@ -25,14 +25,14 @@ public class BidController {
     @PostMapping()
     public String bidPrice(BidItem bidItem, Model model){
         bidItem.setBidDate(LocalDateTime.now().toString());
-        Item item = bidService.addBidPrice(bidItem);
+//        Item item = bidService.addBidPrice(bidItem);
+        Item item = bidService.bid(bidItem);
         model.addAttribute("item", item);
-        return "items/view";
+        return "redirect:/items/" + item.getItemId();
     }
 
     @PostMapping("/end")
-    public String bidEnd(Long ItemId, Model model){
-        bidService.bidEnd(ItemId);
-        return "items/view";
+    public void bidEnd(Long itemId){
+        bidService.bidEnd(itemId);
     }
 }

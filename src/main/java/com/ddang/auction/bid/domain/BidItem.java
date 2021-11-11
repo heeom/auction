@@ -14,5 +14,7 @@ public class BidItem {
     private String buyerId;
     private BigInteger nowBidPrice;
     private BigInteger addBidPrice;
+    private BigInteger maxBidPrice;
     private String bidDate;
+    private Boolean isSuccess;
 }
