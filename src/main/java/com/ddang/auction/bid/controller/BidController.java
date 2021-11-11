@@ -25,9 +25,8 @@ public class BidController {
     @PostMapping()
     public String bidPrice(BidItem bidItem, Model model){
         bidItem.setBidDate(LocalDateTime.now().toString());
-//        Item item = bidService.addBidPrice(bidItem);
         Item item = bidService.bid(bidItem);
-        model.addAttribute("item", item);
+//        model.addAttribute("item", item);
         return "redirect:/items/" + item.getItemId();
     }
 

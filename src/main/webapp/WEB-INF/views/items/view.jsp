@@ -278,7 +278,8 @@ input[type=button]:hover {
 		var countDownDate = new Date("${item.endItemDate}").getTime();
 		var now = new Date().getTime();
 		var distance = countDownDate - now
-		if(distance>0){
+		var isEnd = ${item.isSuccess}
+		if(!isEnd && distance>0){
 			var x = setInterval(function() { //1초마다 갱신되도록 함수 생성,실행
 				var now = new Date().getTime(); // 오늘 날짜 등록
 				var distance = countDownDate - now; // 종료일자에서 현재일자를 뺀 시간

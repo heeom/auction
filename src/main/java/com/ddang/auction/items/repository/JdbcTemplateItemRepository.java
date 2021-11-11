@@ -86,7 +86,7 @@ public class JdbcTemplateItemRepository implements ItemRepository{
 
     @Override
     public int updateNowBidPriceAndBidState(BidItem item) {
-        return jdbcTemplate.update("update item set it_nowBidPrice=?, it_success=?, it_endItemDate=? where it_itemId=?", item.getNowBidPrice(), item.getIsSuccess(), item.getBidDate(), item.getItemId());
+        return jdbcTemplate.update("update item set it_nowBidPrice=?, it_success=? where it_itemId=?", item.getNowBidPrice(), item.getIsSuccess(), item.getItemId());
     }
 
     @Override

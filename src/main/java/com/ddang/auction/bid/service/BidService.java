@@ -91,8 +91,6 @@ public class BidService {
         }
         return 0;
     }
-
-
     //종료된 경매여부 조회
 
     public Item bid(BidItem bidItem){
@@ -114,7 +112,7 @@ public class BidService {
 
     //현재입찰가 >= 최대입찰가 => 낙찰
     private Boolean isSuccessfulBidThenSave(BidItem bidItem) {
-        if(isSuccessfulBid(bidItem)){
+        if(nowPriceHigherThanMaxPrice(bidItem)){
             //낙찰/주문내역에 insert
             return saveOrderHistory(bidItem);
         }
@@ -126,8 +124,8 @@ public class BidService {
         bidItem.setNowBidPrice(newNowBidPrice);
     }
 
-    private boolean isSuccessfulBid(BidItem bidItem){
-        if (bidItem.getNowBidPrice().compareTo(bidItem.getMaxBidPrice())>=1){
+    private boolean nowPriceHigherThanMaxPrice (BidItem bidItem){
+        if (bidItem.getNowBidPrice().compareTo(bidItem.getMaxBidPrice())>=0){
             return true;
         }
         return false;
