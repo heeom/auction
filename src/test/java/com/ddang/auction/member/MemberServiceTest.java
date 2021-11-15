@@ -24,14 +24,15 @@ public class MemberServiceTest {
     void joinMember(){
         //given
         Member member = new Member();
-        member.setMemberId("testID");
+        member.setMemberId("test4");
         member.setPassword("testPW");
         member.setNickName("testNick");
         member.setEmail("test@email.com");
         member.setRegTime(LocalDateTime.now().toString());
 
         //when
-        Member savedMember = memberService.join(member);
+//        Member savedMember = memberService.join(member);
+        Member savedMember = memberRepository.save(member);
 
         //then
         Member findMember = memberService.findOne(savedMember.getId()).get();

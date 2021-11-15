@@ -7,7 +7,6 @@ import com.ddang.auction.member.service.MemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +30,7 @@ public class MemberController {
 
 
     @PostMapping("/join")
-    public String join(@Validated Member member, HttpServletRequest request){
+    public String join(Member member, HttpServletRequest request){
         Member joinMember = memberService.join(member);
 
         if(joinMember == null){
@@ -57,11 +56,11 @@ public class MemberController {
     public String login(LoginMember loginMember, HttpServletRequest request){
 
         Member member = memberService.login(loginMember);
-        if (member == null){
-            return "members/loginForm";
-        }
+//        if (member == null){
+//            return "members/loginForm";
+//        }
         HttpSession session = request.getSession(false);
-        session.setAttribute(SessionConst.LOGIN_MEMBER, member.getMemberId());
+//        session.setAttribute(SessionConst.LOGIN_MEMBER, member.getMemberId());
 
         return "redirect:"+session.getAttribute(SessionConst.REDIRECT_URI);
     }

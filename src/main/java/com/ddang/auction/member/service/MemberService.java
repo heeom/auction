@@ -2,7 +2,9 @@ package com.ddang.auction.member.service;
 
 import com.ddang.auction.member.domain.LoginMember;
 import com.ddang.auction.member.domain.Member;
+import com.ddang.auction.member.domain.Role;
 import com.ddang.auction.member.repository.MemberRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,9 +15,11 @@ import java.util.Optional;
 public class MemberService {
 
      private final MemberRepository memberRepository;
+     private final PasswordEncoder passwordEncoder;
 
-     public MemberService(MemberRepository memberRepository) {
+     public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
           this.memberRepository = memberRepository;
+          this.passwordEncoder = passwordEncoder;
      }
 
      /**
@@ -26,6 +30,16 @@ public class MemberService {
      public Member join(Member member){
           checkDuplicateMemberId(member);
           member.setRegTime(LocalDateTime.now().toString());
+
+          String encodedPassword = passwordEncoder.encode(member.getPassword());
+          member.setPassword(encodedPassword);
+
+          member.setEnabled(true);
+
+          Role role = new Role();
+          role.setRoleId(1L);
+          member.getRoles().add(role);
+
           return memberRepository.save(member);
      }
 

@@ -1,6 +1,6 @@
 package com.ddang.auction.web.config;
 
-import com.ddang.auction.member.repository.JdbcTemplateMemberRepository;
+//import com.ddang.auction.member.repository.JdbcTemplateMemberRepository;
 import com.ddang.auction.member.repository.MemberRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,11 +15,6 @@ public class SpringConfig implements WebMvcConfigurer {
 
     public SpringConfig(DataSource dataSource) {
         this.dataSource = dataSource;
-    }
-
-    @Bean
-    public MemberRepository memberRepository(){
-        return new JdbcTemplateMemberRepository(dataSource);
     }
 
 }

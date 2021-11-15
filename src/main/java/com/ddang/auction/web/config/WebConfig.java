@@ -17,7 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new LoginMemberArgumentResolver());
     }
-
+/**
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
                 registry.addInterceptor(new LoginCheckInterceptor())
@@ -25,4 +25,5 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/home", "/members/join", "/members/duplicate/**", "/members/login", "/members/logout", "/css/**", "/error", "/js/**", "/*.ico", "/img/**", "/items");
     }
+    */
 }
