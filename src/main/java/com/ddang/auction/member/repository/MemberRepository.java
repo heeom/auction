@@ -1,11 +1,13 @@
 package com.ddang.auction.member.repository;
 
 import com.ddang.auction.member.domain.Member;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface MemberRepository {
+public interface MemberRepository{
     //저장
     Member save(Member member);
 
@@ -19,4 +21,5 @@ public interface MemberRepository {
 
     //회원목록조회
     List<Member> findAll();
+
 }

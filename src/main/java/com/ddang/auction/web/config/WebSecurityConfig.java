@@ -1,4 +1,4 @@
-package com.ddang.auction;
+package com.ddang.auction.web.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

@@ -1,4 +1,4 @@
-package com.ddang.auction;
+package com.ddang.auction.web.config;
 
 import com.ddang.auction.web.Interceptor.LoginCheckInterceptor;
 import com.ddang.auction.web.argumentresolver.LoginMemberArgumentResolver;

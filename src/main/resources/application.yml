@@ -8,17 +8,23 @@ spring:
     username: root
     password: 1234
     driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database: mysql
+    database-platform:
+    show-sql: true #true : JPA 쿼리문 확인
+    hibernate:
+      ddl-auto: update
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri:
           jwk-set-uri:
-
 server:
   servlet:
     session:
       timeout: 1800
+
 
 
 
