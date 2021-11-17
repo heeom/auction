@@ -1,6 +1,5 @@
 package com.ddang.auction.member.controller;
 
-import com.ddang.auction.member.domain.LoginMember;
 import com.ddang.auction.member.domain.Member;
 import com.ddang.auction.member.domain.SessionConst;
 import com.ddang.auction.member.service.MemberService;
@@ -38,7 +37,7 @@ public class MemberController {
         }
 
         HttpSession session = request.getSession();
-        session.setAttribute(SessionConst.LOGIN_MEMBER, joinMember.getMemberId());
+        session.setAttribute(SessionConst.LOGIN_MEMBER, joinMember.getUsername());
         return "redirect:/home";
     }
 
@@ -53,21 +52,27 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String login(LoginMember loginMember, HttpServletRequest request){
+    public String login(Member member, HttpServletRequest request){
 
-        Member member = memberService.login(loginMember);
+        log.info("Controller.login.post : {}", member.getUsername());
+
+//        Member loginMember = memberService.login(member);
 //        if (member == null){
 //            return "members/loginForm";
 //        }
+
         HttpSession session = request.getSession(false);
+
 //        session.setAttribute(SessionConst.LOGIN_MEMBER, member.getMemberId());
 
-        return "redirect:"+session.getAttribute(SessionConst.REDIRECT_URI);
+//        return "redirect:"+session.getAttribute(SessionConst.REDIRECT_URI);
+        return "home/index";
     }
 
-    @GetMapping("/duplicate/memberId/{memberId}")
-    public ResponseEntity<Boolean> checkDuplicateMemberId(@PathVariable String memberId){
-        return ResponseEntity.ok(memberService.checkMemberIdExist(memberId));
+
+    @GetMapping("/duplicate/username/{username}")
+    public ResponseEntity<Boolean> checkDuplicateUsername(@PathVariable String username){
+        return ResponseEntity.ok(memberService.checkUsernameExist(username));
     }
 
     @GetMapping("/duplicate/nickName/{nickName}")

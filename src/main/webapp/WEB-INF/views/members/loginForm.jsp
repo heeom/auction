@@ -7,7 +7,7 @@
 <div id="login">
 	<div class="wrap">		
 		<form action="/members/login" method="post" name="fl" onsubmit="return floginform_submit();">
-			<p><input type="text" class="input" id="user_id" name="memberId" maxlength="20" placeholder="아이디" style="ime-mode:disabled" onkeyup="this.value=this.value.replace(/[^a-zA-Z-_0-9]/g,'');" required></p>
+			<p><input type="text" class="input" id="user_id" name="username" maxlength="20" placeholder="아이디" style="ime-mode:disabled" onkeyup="this.value=this.value.replace(/[^a-zA-Z-_0-9]/g,'');" required></p>
 			<p><input type="password" class="input" name="password" maxlength="50" placeholder="비밀번호" required></p>
 			<p><input type="submit" class="btn_submit" value="로그인"></p>
 			
@@ -15,7 +15,7 @@
 				<span class="save_id">
 					<input type="checkbox" id="save_id" name="save_id" value="1"><label for="save_id">아이디저장</label>
 				</span>
-				<a href="../member/register.me">짧은회원가입</a>
+				<a href="../members/join">짧은회원가입</a>
 			</div>
 		</form>
 		

@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Getter @Setter
 public class LoginMember {
-    String memberId;
+    String username;
     String password;
 }

@@ -18,8 +18,8 @@ public interface MemberRepository extends JpaRepository<Member, Long>{
 //    Optional<Member> findById(Long id);
 
     //회원ID 조회
-    @Query("select m from #{#entityName} m where m.memberId = ?1")
-    Optional<Member> findByMemberId(@Param("memberId") String memberId);
+    @Query("select m from #{#entityName} m where m.username = ?1")
+    Optional<Member> findByUsername(@Param("username") String username);
 
     @Query("select m from #{#entityName} m where m.nickName = ?1")
     Optional<Member> findByNickName(@Param("nickName") String nickName);

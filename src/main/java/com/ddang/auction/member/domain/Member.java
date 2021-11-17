@@ -1,7 +1,6 @@
 package com.ddang.auction.member.domain;
 
 import lombok.*;
-import org.apache.catalina.User;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class Member {
     private Long id;
 
     @Column(name = "mb_member_id")
-    private String memberId;
+    private String username;
 
     @Column(name = "mb_password")
     private String password;

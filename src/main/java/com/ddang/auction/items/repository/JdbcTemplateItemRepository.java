@@ -35,7 +35,7 @@ public class JdbcTemplateItemRepository implements ItemRepository{
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("it_itemName", item.getItemName());
-        parameters.put("it_memberId", item.getMemberId());
+        parameters.put("it_memberId", item.getUsername());
         parameters.put("it_itemName", item.getItemName());
         parameters.put("it_addItemDate", item.getAddItemDate());
         parameters.put("it_endItemDate", item.getEndItemDate());
@@ -99,7 +99,7 @@ public class JdbcTemplateItemRepository implements ItemRepository{
             Item item = new Item();
             item.setItemId(rs.getLong("it_itemId"));
             item.setItemName(rs.getString("it_itemName"));
-            item.setMemberId(rs.getString("it_memberId"));
+            item.setUsername(rs.getString("it_memberId"));
             item.setAddItemDate(rs.getString("it_addItemDate"));
             item.setEndItemDate(rs.getString("it_endItemDate"));
             item.setFirstBidPrice(new BigInteger(rs.getString("it_firstBidPrice")));

@@ -7,8 +7,6 @@ import java.util.List;
 
 @Getter
 @Setter
-//@Builder
-//@RequiredArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "role")

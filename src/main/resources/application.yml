@@ -11,18 +11,12 @@ spring:
   jpa:
     database: mysql
     show-sql: true #true : JPA 쿼리문 확인
-
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri:
-          jwk-set-uri:
 server:
   servlet:
     session:
       timeout: 1800
 
-
-
-
+jwt:
+  header: Authorization
+  secret: c3ByaW5nLWJvb3Qtc3ByaW5nTVZDLUpQQS1zcHJpbmctc2VjdXJpdHktd2l0aC1qd3QtcHJvamVjdC1hdWN0aW9u #'spring security project auction' base64로 encoding
+  token-validity-in-seconds: 86400

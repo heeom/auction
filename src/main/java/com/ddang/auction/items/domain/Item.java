@@ -19,7 +19,7 @@ import java.math.BigInteger;
 public class Item {
     private long itemId;
     private String itemName;
-    private String memberId;
+    private String username;
     private String addItemDate;
     private String endItemDate;
     private BigInteger firstBidPrice;

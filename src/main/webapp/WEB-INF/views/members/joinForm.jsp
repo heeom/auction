@@ -16,7 +16,7 @@
 				<span class="title">필수 입력사항</span>
 			</p>
 			<p>
-				<input type="text" id="register_id" name="memberId" class="inp_small" maxlength="20" placeholder="아이디 (영문+숫자 조합 4~20자)" style="ime-mode:disabled" onkeyup="this.value=this.value.replace(/[^a-zA-Z-_0-9]/g,'');" tabindex="1" required="required">
+				<input type="text" id="register_id" name="username" class="inp_small" maxlength="20" placeholder="아이디 (영문+숫자 조합 4~20자)" style="ime-mode:disabled" onkeyup="this.value=this.value.replace(/[^a-zA-Z-_0-9]/g,'');" tabindex="1" required="required">
 				<input type="button" class="btn_check" onclick="duplicationCheck('id')" value="중복검사">
 				<span id="result_id"></span>
 			</p>
@@ -64,31 +64,31 @@
 					// 첫 글자 영문자, 두번째부터 영문자, 숫자 조합 4~20자
 					var regex = /^[A-Za-z][A-Za-z0-9]{3,20}$/g;
 					
-					if(!rf.memberId.value) {
+					if(!rf.username.value) {
 						document.getElementById("result_id").innerHTML = "아이디를 입력해주세요.";
 						document.getElementById("result_id").style.color = '#fc5230';
-						rf.memberId.focus();
+						rf.username.focus();
 						return false;
-					} else if(!regex.exec(rf.memberId.value)) {
+					} else if(!regex.exec(rf.username.value)) {
 						document.getElementById("result_id").innerHTML = "아이디는 첫 글자는 영문자로, 두번째 부터 영문자, 숫자를 조합한 4~20자 까지 사용 가능합니다.";
 						document.getElementById("result_id").style.color = '#fc5230';
-						rf.memberId.focus();
+						rf.username.focus();
 						return false;
 					} else {
-						let memberId = $('#register_id').val();
+						let username = $('#register_id').val();
 						
 						$.ajax({
-							url: '/members/duplicate/memberId/' + memberId,
+							url: '/members/duplicate/username/' + username,
 							type: 'get',
 							success: function(data) {
 								if(data) {
 									document.getElementById("result_id").innerHTML = "누군가 이미 사용중인 아이디입니다 :(";
 									document.getElementById("result_id").style.color = '#fc5230';
-									rf.memberId.focus();
+									rf.username.focus();
 								} else {
 									document.getElementById("result_id").innerHTML = "사용 가능한 아이디입니다 :)";
 									document.getElementById("result_id").style.color = '#3883c9';
-									rf.memberId.focus();
+									rf.username.focus();
 									checkID = true;
 								}
 							}, error: function() {
@@ -120,11 +120,11 @@
 								if(data) {
 									document.getElementById("result_nick").innerHTML = "누군가 이미 사용중인 닉네임입니다 :(";
 									document.getElementById("result_nick").style.color = '#fc5230';
-									rf.memberId.focus();
+									rf.username.focus();
 								} else {
 									document.getElementById("result_nick").innerHTML = "잘 어울리는 닉네임이네요 :)";
 									document.getElementById("result_nick").style.color = '#3883c9';
-									rf.memberId.focus();
+									rf.username.focus();
 									checkNick = true;
 								}
 							}, error: function() {
@@ -141,7 +141,7 @@
 				
 				if(!checkID) {
 					alert("아이디 중복검사를 통해 사용 가능한 아이디를 입력해주세요.");
-					rf.memberId.focus();
+					rf.username.focus();
 					return false;
 				} else if(!rf.pre_password.value) {
 					alert("비밀번호를 입력해주세요.");
