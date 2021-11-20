@@ -63,8 +63,8 @@ Intellij
 
 ### [추가]    
 0. spring JDBCTemplate -> JPA
-1. 관리자 권한  
-    spring security  
+1. 로그인 인증  
+    spring security + 
 2. 중복닉네임, 이메일, 아이디 검증    
     validation  
 3. 상품등록  
