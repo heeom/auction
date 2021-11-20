@@ -64,7 +64,7 @@ Intellij
 ### [추가]    
 0. spring JDBCTemplate -> JPA
 1. 로그인 인증  
-    spring security + 
+    spring security + jwt
 2. 중복닉네임, 이메일, 아이디 검증    
     validation  
 3. 상품등록  
