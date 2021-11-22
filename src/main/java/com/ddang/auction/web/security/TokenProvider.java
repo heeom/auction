@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -19,28 +20,43 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+/**
+ *  JWT 토큰의 암호화, 복호화, 검증로직이 모두 TokenProvider에서 이루어진다.
+ *  - createToken :
+ *      - authentication 객체를 넘겨 받아서 JWT Token을 생성한다.
+ *      - authentication.getName() : username(유저아이디)
+ *      - Token에 유저, 권한, 시크릿키, 유효기간을 담아 생성한다.
+ *
+ *  - getAuthentication :
+ *      - jwt token을 복호화해서 토큰에 들어있는 정보를 꺼낸다.
+ *      - 권한 정보로 UserDetails 객체를 생성해서 UsernamePasswordAuthenticationToken 형태로 리턴
+ */
+
 @Slf4j
 @Component
 public class TokenProvider implements InitializingBean{
 
     private static final String AUTHORITIES_KEY = "auth";
-
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30; //30분
+    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7; //7일
     private final String secret;
     private final long tokenValidityInMilliseconds;
-
     private Key key;
 
-    public TokenProvider(@Value("${jwt.secret}") String secret, @Value("${jwt.token-validity-in-seconds}")long tokenValidityInMilliseconds) {
+
+    public TokenProvider(@Value("${jwt.secret}") String secret, @Value("${jwt.token-validity-in-seconds}")long tokenValidityInMilliseconds)  {
         this.secret = secret;
         this.tokenValidityInMilliseconds = tokenValidityInMilliseconds * 1000;
     }
 
+    //secret Base64로 decode -> hmac-Sha 알고리즘 사용해서 SecretKey 생성
     @Override
     public void afterPropertiesSet(){
         byte[] keyBytes = Decoders.BASE64.decode(secret);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
+    //JWT Token 생성
     public String createToken(Authentication authentication){
         String authorities = authentication
                 .getAuthorities()
@@ -49,13 +65,13 @@ public class TokenProvider implements InitializingBean{
                 .collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
-        Date validity = new Date(now + tokenValidityInMilliseconds);
+        Date validity = new Date(now + tokenValidityInMilliseconds); //유효기간 설정
 
-        return Jwts.builder()
-                .setSubject(authentication.getName())
-                .claim(AUTHORITIES_KEY, authorities)
-                .signWith(key, SignatureAlgorithm.ES512)
-                .setExpiration(validity)
+        return Jwts.builder()                          // payload
+                .setSubject(authentication.getName()) // "sub" : "name"
+                .claim(AUTHORITIES_KEY, authorities) //  "auth" : "ROLE_USER"
+                .signWith(key, SignatureAlgorithm.HS512)// "alg" : "HS512" signature에 들어갈 secretKey값과 사용할 암호화 알고리즘
+                .setExpiration(validity) //유효기간 설정
                 .compact();
     }
 
@@ -71,12 +87,13 @@ public class TokenProvider implements InitializingBean{
         Collection<? extends GrantedAuthority> authorities = Arrays.stream(
                 claims.get(AUTHORITIES_KEY).toString().split(","))
                 .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList()); 
-        //권한 정보로 유저 객체 생성
-        User principal = new User(claims.getSubject(), "", authorities);
+                .collect(Collectors.toList());
+
+        //권한 정보로 UserDetails 객체 생성
+        UserDetails principal = new User(claims.getSubject(), "", authorities);
 
         //user객체, token, 권한 정보를 이용 -> Authentication 객체 리턴
-        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+        return new UsernamePasswordAuthenticationToken(principal, "", authorities); //principal, credential, authorities
     }
 
     //토큰 유효성 검증

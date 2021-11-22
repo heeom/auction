@@ -1,14 +1,23 @@
 package com.ddang.auction.member.controller;
 
+import com.ddang.auction.member.domain.LoginMember;
 import com.ddang.auction.member.domain.Member;
 import com.ddang.auction.member.domain.SessionConst;
 import com.ddang.auction.member.service.MemberService;
+import com.ddang.auction.web.security.JwtFilter;
+import com.ddang.auction.web.security.TokenProvider;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @Slf4j
@@ -17,9 +26,13 @@ import javax.servlet.http.HttpSession;
 public class MemberController {
 
     private final MemberService memberService;
+    private final TokenProvider tokenProvider;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
         this.memberService = memberService;
+        this.tokenProvider = tokenProvider;
+        this.authenticationManagerBuilder = authenticationManagerBuilder;
     }
 
     @GetMapping("/join")
@@ -27,48 +40,27 @@ public class MemberController {
         return "members/joinForm";
     }
 
-
     @PostMapping("/join")
-    public String join(Member member, HttpServletRequest request){
+    public String join(Member member){
         Member joinMember = memberService.join(member);
-
         if(joinMember == null){
             return "redirect:/join";
         }
-
-        HttpSession session = request.getSession();
-        session.setAttribute(SessionConst.LOGIN_MEMBER, joinMember.getUsername());
         return "redirect:/home";
     }
 
     @GetMapping("/login")
-    public String loginForm(HttpServletRequest request,
-            @RequestParam(defaultValue = "/home") String redirectURI){
-
-        HttpSession session = request.getSession();
-        session.setAttribute(SessionConst.REDIRECT_URI, redirectURI);
-
+    public String loginForm(){
         return "members/loginForm";
     }
 
     @PostMapping("/login")
-    public String login(Member member, HttpServletRequest request){
-
-        log.info("Controller.login.post : {}", member.getUsername());
-
-//        Member loginMember = memberService.login(member);
-//        if (member == null){
-//            return "members/loginForm";
-//        }
-
-        HttpSession session = request.getSession(false);
-
-//        session.setAttribute(SessionConst.LOGIN_MEMBER, member.getMemberId());
-
-//        return "redirect:"+session.getAttribute(SessionConst.REDIRECT_URI);
-        return "home/index";
+    public String login(LoginMember loginMember, HttpServletRequest request, HttpServletResponse response){
+        String token = memberService.login(loginMember);
+        ResponseEntity.ok(token);
+        log.info("token : {}", token);
+        return "redirect:/home";
     }
-
 
     @GetMapping("/duplicate/username/{username}")
     public ResponseEntity<Boolean> checkDuplicateUsername(@PathVariable String username){
@@ -89,22 +81,5 @@ public class MemberController {
         return "redirect:/home";
     }
 
-    @GetMapping("/update")
-    public String updateMemberInfoForm(){
-        return "members/member";
-    }
 
-    @PostMapping("/update")
-    public String updateMemberInfo(){
-        return "members/member";
-    }
-
-    @GetMapping("/member")
-    public String getMember(){
-        return "";
-    }
-
-    public String getMembers(){
-        return "";
-    }
 }

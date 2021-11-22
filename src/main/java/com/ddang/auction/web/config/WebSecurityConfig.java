@@ -33,35 +33,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
     }
 
-    /**
-     * 스프링 시큐리티가 사용자를 인증하는 방법이 담긴 객체
-     * @param auth
-     * @throws Exception
-     */
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        /*
-            AuthenticationProvider 구현체
-         */
-//        auth.authenticationProvider(authenticationProvider);
-    }
 
     /**
      * 스프링 시큐리티 룰을 무시하기 하는 URL 패턴
-     * @param web
-     * @throws Exception
      */
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web) {
         web
                 .ignoring()
-                .antMatchers("/css/**", "/error", "/js/**", "/*.ico", "/img/**");
+                .antMatchers("/css/**", "/error", "/js/**", "/*.ico", "/img/**", "/upload/**");
     }
 
     /**
      * 스프링 시큐리티 룰
-     * @param http
-     * @throws Exception
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -71,25 +55,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 .accessDeniedHandler(jwtAccessDeniedHandler)
-
+                //세션 사용하지 않기때문에 세션 설정 Stateless로
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 .and()
                 .authorizeRequests()//httpServletRequest를 사용하는 요청들에 대한 접근제한을 설정
-                    .antMatchers("/home", "/members/join", "/members/duplicate/**",  "/members/logout", "/items")
-                    .permitAll()
-                    .antMatchers("/admin").hasRole("ADMIN")
+                    .antMatchers("/home","/members/**", "/items").permitAll()
                     .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                    .loginPage("/members/login")
-                    .permitAll()
-                .and()
-                .logout()
-                    .permitAll()
-
+//                .and()
+//                .formLogin()
+//                    .loginPage("/members/login")
+//                    .permitAll()
+//                .and()
+//                .logout()
+//                    .permitAll()
+                // JwtFilter를 등록한 JwtSecureConfig 적용
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));
     }

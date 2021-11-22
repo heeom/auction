@@ -5,7 +5,7 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
 
-<c:set var="memberId" value="${sessionScope.loginMember}" />
+<c:set var="username" value="${sessionScope.loginMember}" />
 <c:set var="item" value="${item}"/>
 
 <style>
@@ -180,8 +180,8 @@ input[type=button]:hover {
 								직접 입력</h3><span style="color:red;">※(주의하세요!)현재 입찰가에 금액이 더해집니다.</span><br>
 								<form action="/bid" method="post" name="bidItem" id="bid">
 									<input type="hidden" name="itemId" value="${item.itemId}"/>
-							<input type="hidden" name="buyerId" value="${memberId}"/>
-							<input type="hidden" name="sellerId" value="${item.memberId}"/>
+							<input type="hidden" name="buyerId" value="${username}"/>
+							<input type="hidden" name="sellerId" value="${item.username}"/>
 							<input type="hidden" name="nowBidPrice" value="${item.nowBidPrice}"/>
 							<input type="hidden" name="maxBidPrice" value="${item.maxBidPrice}"/>
 							<input type="text" id="price" name="addBidPrice" value="" placeholder="입찰가 입력">
@@ -202,7 +202,7 @@ input[type=button]:hover {
 				</div>
 			</div>
 			<div style="border-bottom:1px solid #bcbcbc"><h4>판매자 정보</h4></div><br>
-			판매자 아이디 : ${item.memberId}<br>
+			판매자 아이디 : ${item.username}<br>
 			<div style="border-top:1px solid #bcbcbc">
 				<c:url value="../items/edit" var="modify">
 					<c:param name="itemId" value="${item.itemId}" />
@@ -231,7 +231,7 @@ input[type=button]:hover {
 			var max=${item.maxBidPrice}
 			var isEnd=${item.isSuccess}
 			
-		if(${not empty memberId}){
+		if(${not empty username}){
 
 		if(isEnd){
 			alert("종료된 경매입니다! ");

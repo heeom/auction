@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="../home/head.jsp" />
-<c:set var="memberId" value="${sessionScope.loginMember}"/>
+<c:set var="username" value="${sessionScope.loginMember}"/>
 
 <link rel="stylesheet" href="/css/item.css">
 <link rel="stylesheet" href="/css/summernote/summernote-lite.min.css">
@@ -32,7 +32,7 @@
 		<div class="info">
 			<input type="number" name="firstBidPrice" class="price_formatting" placeholder="시작가(원)" maxlength="11" required="required">
 			<input type="number" name="maxBidPrice" class="price_formatting" placeholder="낙찰가(원)" maxlength="11" required="required">
-			<input type="text" name="memberId" hidden="true" value="${memberId}"/>
+			<input type="text" name="username" hidden="true" value="${username}"/>
 			<span class="delivery">
 				<input type="number" name="deliveryPrice" class="price_formatting" maxlength="6" placeholder="배송비(원)" required="required">
 				<button onclick="freeDelivery();return false;">무료배송</button>

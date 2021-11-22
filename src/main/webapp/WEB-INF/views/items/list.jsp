@@ -40,8 +40,8 @@
 						<span>원</span>
 					</p>
 					<span class="member_info">
-						<span>${item.memberId}</span>
-						<input type="hidden" id="memberid" value="${item.memberId}">
+						<span>${item.username}</span>
+						<input type="hidden" id="username" value="${item.username}">
 					</span>
 				</li>
 			</c:forEach>
@@ -97,7 +97,7 @@
 		</ul>
 		<ul>
 			<li>
-				<form action="#" name="memberID" method="post">
+				<form action="#" name="username" method="post">
 					<input type="submit" value="내 상품보기" style="border: 0; background-color: white;">
 				</form>
 			</li>
