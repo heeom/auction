@@ -64,8 +64,11 @@ Intellij
 ### [추가]    
 0. spring JDBCTemplate -> JPA
 1. 로그인 인증  
-    spring security + jwt
-2. 중복닉네임, 이메일, 아이디 검증    
+    1.1 spring security + jwt 적용  
+2. 예외처리하기   
+    2.1 인증실패, 권한 없는 경우 -> 401,403   
+    2.2 삭제된 상품페이지 요청 -> 404  
+4. 중복닉네임, 이메일, 아이디 검증    
     validation  
-3. 상품등록  
+4. 상품등록  
     이미지 파일 등록 
