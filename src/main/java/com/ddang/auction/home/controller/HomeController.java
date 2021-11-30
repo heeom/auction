@@ -10,20 +10,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 
 @Slf4j
 @RequestMapping("/home")
 @Controller
 public class HomeController {
 
-//    @GetMapping
-    public String home(@SessionAttribute(name=SessionConst.LOGIN_MEMBER, required = false) String memberId, Model model){
-        return "home/index";
-    }
-
     @GetMapping
-    public String homePage(@Login String memberId, Model model){
-        return "home/index";
-    }
+    public String home(){
+        return "redirect:/items";
 
+    }
 }

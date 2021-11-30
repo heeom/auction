@@ -1,4 +1,4 @@
-package com.ddang.auction.web.security;
+package com.ddang.auction.web.security.controller;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

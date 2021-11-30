@@ -1,4 +1,4 @@
-package com.ddang.auction.web.security;
+package com.ddang.auction.web.security.controller;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

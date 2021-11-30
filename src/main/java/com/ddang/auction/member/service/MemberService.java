@@ -5,9 +5,10 @@ import com.ddang.auction.member.domain.Member;
 import com.ddang.auction.member.domain.Role;
 import com.ddang.auction.member.domain.RoleConst;
 import com.ddang.auction.member.repository.MemberRepository;
-import com.ddang.auction.web.security.TokenProvider;
+import com.ddang.auction.web.security.SecurityUtil;
+import com.ddang.auction.web.security.dto.TokenDto;
+import com.ddang.auction.web.security.service.TokenProvider;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.security.SecurityUtil;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -54,23 +55,26 @@ public class MemberService {
                });
      }
 
-     public String login(LoginMember loginMember) {
+     public TokenDto login(LoginMember loginMember) {
           //1. id/pw 기반으로 AuthenticationToken생성
           UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginMember.getUsername(), loginMember.getPassword());
-
-
           //2. id/pw검증 : authentication 메서드가 실행될 때, CustomUserDetailsService.loadUserByUsername 실행
           //AuthenticationManager : 실제 인증과정이 수행됨 
           //                       - authenticate(authentication) : UserDetails의 유저정보와 authenticationToken의 유저 정보가 일치하는지 검사한다.
           //                       - 인증이 완료된 Authentication 객체에는 username(id)가 들어있다.
           Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-          
+
           //3. 인증정보를 기반으로 JWT 토큰 생성
-          String token = tokenProvider.createToken(authentication);
+          TokenDto token = tokenProvider.createToken(authentication);
           
           //4. 생성된 토큰을 클라이언트에 전달
           return token;
      }
+     
+     //SecurityContext에 저장되어 있는 유저 정보 가져오기
+//     public Member getUserInfo(){
+//          return memberRepository.findById(SecurityUtil.getCurrentUsername())
+//     }
 
 
      /**
@@ -87,10 +91,12 @@ public class MemberService {
           return memberRepository.findById(id);
      }
 
+     @Transactional(readOnly = true)
      public boolean checkUsernameExist(String username) {
          return memberRepository.findByUsername(username).isPresent();
      }
 
+     @Transactional(readOnly = true)
      public boolean checkNickNameExist(String nickName){
           return memberRepository.findByNickName(nickName).isPresent();
      }

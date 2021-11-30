@@ -1,5 +1,6 @@
-package com.ddang.auction.web.security;
+package com.ddang.auction.web.security.service;
 
+import com.ddang.auction.web.security.dto.TokenDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -39,14 +40,13 @@ public class TokenProvider implements InitializingBean{
     private static final String AUTHORITIES_KEY = "auth";
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30; //30분
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7; //7일
+    private static final String TOKEN_TYPE = "bearer ";
     private final String secret;
-    private final long tokenValidityInMilliseconds;
     private Key key;
 
 
-    public TokenProvider(@Value("${jwt.secret}") String secret, @Value("${jwt.token-validity-in-seconds}")long tokenValidityInMilliseconds)  {
+    public TokenProvider(@Value("${jwt.secret}") String secret)  {
         this.secret = secret;
-        this.tokenValidityInMilliseconds = tokenValidityInMilliseconds * 1000;
     }
 
     //secret Base64로 decode -> hmac-Sha 알고리즘 사용해서 SecretKey 생성
@@ -57,7 +57,7 @@ public class TokenProvider implements InitializingBean{
     }
 
     //JWT Token 생성
-    public String createToken(Authentication authentication){
+    public TokenDto createToken(Authentication authentication){
         String authorities = authentication
                 .getAuthorities()
                 .stream()
@@ -65,18 +65,32 @@ public class TokenProvider implements InitializingBean{
                 .collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
-        Date validity = new Date(now + tokenValidityInMilliseconds); //유효기간 설정
 
-        return Jwts.builder()                          // payload
+        Date accessTokenExpireTime = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
+        Date refreshTokenExpireTime = new Date(now + REFRESH_TOKEN_EXPIRE_TIME);
+
+        String accessToken = Jwts.builder()                                  // payload
                 .setSubject(authentication.getName()) // "sub" : "name"
                 .claim(AUTHORITIES_KEY, authorities) //  "auth" : "ROLE_USER"
                 .signWith(key, SignatureAlgorithm.HS512)// "alg" : "HS512" signature에 들어갈 secretKey값과 사용할 암호화 알고리즘
-                .setExpiration(validity) //유효기간 설정
+                .setExpiration(accessTokenExpireTime) //유효기간 설정
                 .compact();
+
+        String refreshToken = Jwts.builder()
+                .setExpiration(refreshTokenExpireTime)
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
+
+        return TokenDto.builder()
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
+                .accessTokenExpireTime(accessTokenExpireTime.getTime())
+                .tokenType(TOKEN_TYPE)
+                .build();
     }
 
     public Authentication getAuthentication(String token){
-        //token으로 claim을 만들고
+        //token복호화해서 claim을 만들고
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
@@ -84,10 +98,10 @@ public class TokenProvider implements InitializingBean{
                 .getBody();
 
         //claim에서 권한 정보(AUTHORITIES_KEY)를 가져옴
-        Collection<? extends GrantedAuthority> authorities = Arrays.stream(
-                claims.get(AUTHORITIES_KEY).toString().split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        Collection<? extends GrantedAuthority> authorities = Arrays
+                                                .stream(claims.get(AUTHORITIES_KEY).toString().split(","))
+                                                .map(SimpleGrantedAuthority::new)
+                                                .collect(Collectors.toList());
 
         //권한 정보로 UserDetails 객체 생성
         UserDetails principal = new User(claims.getSubject(), "", authorities);

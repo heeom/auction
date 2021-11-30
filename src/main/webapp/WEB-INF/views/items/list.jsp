@@ -15,18 +15,17 @@
 
 <div class="item_list">
 	<div class="title">실시간경매 목록</div>
-
 	<div class="fixed_img_row">
 		<ul>
-			<c:forEach var="item" items="${itemList}">
+			<c:forEach var="item" items="${itemList}" >
 				<li class="desc">
-					<a href="/items/${item.itemId}">
+<%--					<a onclick="btn(${item.itemId})">--%>
 						<span class="thumb">
-							<img src="../upload/${item.itemThumbnail}" width="120">
+							<img src="../upload/${item.itemThumbnail}" width="120" onclick="btn(${item.itemId})">
 							<em>상품 보기</em>
 						</span>
 						<span class="subject">${item.itemName}</span>
-					</a>
+<%--					</a>--%>
 					<p class="price_now">
 						<span>현재가</span>
 						<span class="price_formatting price">${item.nowBidPrice}</span>
@@ -138,9 +137,19 @@
 </div>
 
 <script type="text/javascript">
-$(function() {
-	$('.price_formatting').number(true);
-});
+	$(function () {
+		$('.price_formatting').number(true);
+	});
+
+	function btn(itemId) {
+		const token = localStorage.getItem("accessToken");
+		$.ajax({
+			url : "/items/"+itemId,
+			method : "GET",
+			dataType : "json",
+			headers: {"Authentication" : token}
+		})
+	}
 </script>
 
 <jsp:include page="../home/tail.jsp" />

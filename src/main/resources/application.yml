@@ -19,4 +19,3 @@ server:
 jwt:
   header: Authorization
   secret: c3ByaW5nLWJvb3Qtc3ByaW5nTVZDLUpQQS1zcHJpbmctc2VjdXJpdHktd2l0aC1qd3QtcHJvamVjdC1hdWN0aW9u #'spring security project auction' base64로 encoding
-  token-validity-in-seconds: 86400

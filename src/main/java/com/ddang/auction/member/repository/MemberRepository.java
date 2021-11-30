@@ -11,12 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long>{
-    //저장
-//    Member save(Member member);
-
-    //sequence로 조회
-//    Optional<Member> findById(Long id);
-
     //회원ID 조회
     @Query("select m from #{#entityName} m where m.username = ?1")
     Optional<Member> findByUsername(@Param("username") String username);
@@ -24,8 +18,5 @@ public interface MemberRepository extends JpaRepository<Member, Long>{
     @Query("select m from #{#entityName} m where m.nickName = ?1")
     Optional<Member> findByNickName(@Param("nickName") String nickName);
 
-    //회원목록조회
     List<Member> findAll();
-
-//    Optional<Member> findByMemberId(String mb_member_id);
 }

@@ -1,5 +1,7 @@
-package com.ddang.auction.web.security;
+package com.ddang.auction.web.security.config;
 
+import com.ddang.auction.web.security.JwtFilter;
+import com.ddang.auction.web.security.service.TokenProvider;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.DefaultSecurityFilterChain;

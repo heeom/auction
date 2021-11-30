@@ -1,10 +1,12 @@
 package com.ddang.auction.web.config;
 
-import com.ddang.auction.web.security.*;
+import com.ddang.auction.web.security.config.JwtSecurityConfig;
+import com.ddang.auction.web.security.controller.JwtAccessDeniedHandler;
+import com.ddang.auction.web.security.controller.JwtAuthenticationEntryPoint;
+import com.ddang.auction.web.security.service.TokenProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -68,10 +70,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .formLogin()
 //                    .loginPage("/members/login")
 //                    .permitAll()
-//                .and()
-//                .logout()
-//                    .permitAll()
-                // JwtFilter를 등록한 JwtSecureConfig 적용
+                .and()
+                .logout()
+                    .permitAll()
+//                 JwtFilter를 등록한 JwtSecureConfig 적용
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));
     }

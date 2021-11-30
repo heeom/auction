@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:set var="memberId" value="${sessionScope.loginMember}"/>
+<c:set var="username" value="${username}"/>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -105,7 +105,6 @@
 		</script>
 	</head>
 	<body>
-<%--	<jsp:include page="../kakao/kakao.jsp"></jsp:include>--%>
 		<div class="back_drop"></div>
 		<header>
 			<div class="header_wrap">
@@ -113,13 +112,11 @@
 				<nav>
 					<ul>
 						<li><a href="/items">실시간 경매</a></li>
-<%--						<li><a href="/items/create">상품등록</a></li>--%>
-<%--						<li class="btn_more">더보기</li>--%>
 					</ul>
 				</nav>
 				<div class="btn_header">
 					<c:choose>
-						<c:when test="${memberId eq null}">
+						<c:when test="${username eq null}">
 							<a href="#"><button>땅땅땅 이용방법</button></a>
 						</c:when>
 						<c:otherwise>
@@ -129,7 +126,7 @@
 				</div>
 				<div class="member_section">
 					<c:choose>
-						<c:when test="${memberId eq null}">
+						<c:when test="${username eq null}">
 							<span>
 								<a class="dig_login" href="/members/login">로그인</a>
 								<span class="login_tab load_login_tab">

@@ -2,18 +2,14 @@ package com.ddang.auction.member.controller;
 
 import com.ddang.auction.member.domain.LoginMember;
 import com.ddang.auction.member.domain.Member;
-import com.ddang.auction.member.domain.SessionConst;
 import com.ddang.auction.member.service.MemberService;
-import com.ddang.auction.web.security.JwtFilter;
-import com.ddang.auction.web.security.TokenProvider;
+import com.ddang.auction.web.security.dto.TokenDto;
+import com.ddang.auction.web.security.service.TokenProvider;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,11 +51,10 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String login(LoginMember loginMember, HttpServletRequest request, HttpServletResponse response){
-        String token = memberService.login(loginMember);
-        ResponseEntity.ok(token);
-        log.info("token : {}", token);
-        return "redirect:/home";
+    public String login(LoginMember loginMember, HttpServletResponse response, Model model){
+        TokenDto token = memberService.login(loginMember);
+        response.setHeader("token", "Bearer "+token);
+        return "home/index";
     }
 
     @GetMapping("/duplicate/username/{username}")

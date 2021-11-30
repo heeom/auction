@@ -1,4 +1,4 @@
-package com.ddang.auction.web.security;
+package com.ddang.auction.web.security.service;
 
 import com.ddang.auction.member.domain.Member;
 import com.ddang.auction.member.repository.MemberRepository;
