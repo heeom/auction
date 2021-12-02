@@ -45,7 +45,7 @@ public class TokenProvider implements InitializingBean{
     private Key key;
 
 
-    public TokenProvider(@Value("${jwt.secret}") String secret)  {
+    public TokenProvider(@Value("${jwt.secret}") String secret) {
         this.secret = secret;
     }
 
@@ -89,12 +89,12 @@ public class TokenProvider implements InitializingBean{
                 .build();
     }
 
-    public Authentication getAuthentication(String token){
-        //token복호화해서 claim을 만들고
+    public Authentication getAuthentication(String accessToken){
+        //Jwt 파싱해서 body의 claim을 리턴 : claim 생성
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
-                .parseClaimsJws(token)
+                .parseClaimsJws(accessToken)
                 .getBody();
 
         //claim에서 권한 정보(AUTHORITIES_KEY)를 가져옴
@@ -107,7 +107,7 @@ public class TokenProvider implements InitializingBean{
         UserDetails principal = new User(claims.getSubject(), "", authorities);
 
         //user객체, token, 권한 정보를 이용 -> Authentication 객체 리턴
-        return new UsernamePasswordAuthenticationToken(principal, "", authorities); //principal, credential, authorities
+        return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
     //토큰 유효성 검증
@@ -126,5 +126,4 @@ public class TokenProvider implements InitializingBean{
         }
         return false;
     }
-
 }

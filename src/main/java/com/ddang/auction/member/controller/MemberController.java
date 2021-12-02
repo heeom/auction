@@ -12,9 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Arrays;
 
 @Slf4j
 @Controller
@@ -55,6 +57,12 @@ public class MemberController {
         TokenDto token = memberService.login(loginMember);
         response.setHeader("token", "Bearer "+token);
         return "home/index";
+    }
+
+    @PostMapping("/reissue")
+    public ResponseEntity<TokenDto> reissue(HttpServletRequest request){
+        TokenDto token = new TokenDto();
+        return ResponseEntity.ok(memberService.reissue(token));
     }
 
     @GetMapping("/duplicate/username/{username}")

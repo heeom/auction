@@ -6,7 +6,9 @@ import com.ddang.auction.member.domain.Role;
 import com.ddang.auction.member.domain.RoleConst;
 import com.ddang.auction.member.repository.MemberRepository;
 import com.ddang.auction.web.security.SecurityUtil;
+import com.ddang.auction.web.security.dto.RefreshToken;
 import com.ddang.auction.web.security.dto.TokenDto;
+import com.ddang.auction.web.security.repository.RefreshTokenRepository;
 import com.ddang.auction.web.security.service.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.management.RuntimeOperationsException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -25,6 +28,7 @@ import java.util.Optional;
 public class MemberService {
 
      private final MemberRepository memberRepository;
+     private final RefreshTokenRepository refreshTokenRepository;
      private final PasswordEncoder passwordEncoder;
      private final AuthenticationManagerBuilder authenticationManagerBuilder;
      private final TokenProvider tokenProvider;
@@ -48,12 +52,7 @@ public class MemberService {
           return memberRepository.save(member);
      }
 
-     private void checkDuplicateUsername(Member member) {
-          memberRepository.findByUsername(member.getUsername())
-               .ifPresent(member1 -> {
-                    throw new IllegalArgumentException("Duplicate MemberId");
-               });
-     }
+
 
      public TokenDto login(LoginMember loginMember) {
           //1. id/pw 기반으로 AuthenticationToken생성
@@ -67,7 +66,15 @@ public class MemberService {
           //3. 인증정보를 기반으로 JWT 토큰 생성
           TokenDto token = tokenProvider.createToken(authentication);
           
-          //4. 생성된 토큰을 클라이언트에 전달
+          //4. RefreshToken저장
+          RefreshToken refreshToken = RefreshToken.builder()
+                                        .key(authentication.getName())
+                                        .value(token.getRefreshToken())
+                                        .build();
+          
+          refreshTokenRepository.save(refreshToken);
+          
+          //5. 생성된 토큰을 발급
           return token;
      }
      
@@ -75,18 +82,35 @@ public class MemberService {
 //     public Member getUserInfo(){
 //          return memberRepository.findById(SecurityUtil.getCurrentUsername())
 //     }
+     public TokenDto reissue(TokenDto token) {
 
+          //1. Refresh Token 검증
+          if(!tokenProvider.validateToken(token.getRefreshToken())){
+               throw new RuntimeException("유효하지 않은 RefreshToken");
+          }
 
-     /**
-      * 전체 회원 조회
-      */
-     public List<Member> findMembers(){
-          return memberRepository.findAll();
+          //2. access token에서 username가져오기
+          Authentication authentication = tokenProvider.getAuthentication(token.getAccessToken());
+
+          //3. refresh token 저장소에서 username기반으로 refresh token 조회해오기
+          RefreshToken refreshToken = refreshTokenRepository.findByKey(authentication.getName())
+                  .orElseThrow(() -> new RuntimeException("로그아웃된 사용자입니다."));
+
+          //4. Refresh token 일치여부 검사
+          if(!refreshToken.getValue().equals(token.getRefreshToken())){
+               throw new RuntimeException("refresh 토큰의 사용자 정보가 일치하지 않습니다.");
+          }
+          
+          //5. 새로운 Token 생성
+          TokenDto newTokenDto = tokenProvider.createToken(authentication);
+          
+          //6. 토큰 저장소의 refresh token 정보 업데이트
+          RefreshToken newRefreshToken = refreshToken.updateValue(newTokenDto.getRefreshToken());
+          refreshTokenRepository.save(newRefreshToken);
+
+          return newTokenDto;
      }
 
-     /**
-      * id로 회원 조회
-      */
      public Optional<Member> findOne(Long id){
           return memberRepository.findById(id);
      }
@@ -101,4 +125,10 @@ public class MemberService {
           return memberRepository.findByNickName(nickName).isPresent();
      }
 
+     private void checkDuplicateUsername(Member member) {
+          memberRepository.findByUsername(member.getUsername())
+                  .ifPresent(member1 -> {
+                       throw new IllegalArgumentException("Duplicate MemberId");
+                  });
+     }
 }
