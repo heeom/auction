@@ -14,27 +14,6 @@
 		<script src="/js/jquery-3.4.1.min.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function(){
-				// 더보기
-				$('.btn_more').click(function(){
-					var more_menu = $('.header_more_menu'),
-						search_tab = $('.search_tab'),
-						login_tab = $('.login_tab');
-
-					if(!more_menu.hasClass('show') || search_tab.hasClass('show') || login_tab.hasClass('show')) {
-						$.post("../main/more_menu.jsp", {}, function(data) {
-							$(".load_more").html(data);
-
-							search_tab.fadeOut(100).removeClass('show');
-							login_tab.fadeOut(100).removeClass('show');
-
-							$('.back_drop').css({'display': 'block', 'opacity': 0}).animate({'opacity': 1}, 100);
-						});
-					} else if(more_menu.hasClass('show')) {
-						more_menu.animate({top:-350}, 300).removeClass('show');
-						$('.back_drop').css('display', 'none');
-					}
-				});
-
 				// 검색
 				$('.txt_search').click(function(){
 					var more_menu = $('.header_more_menu'),
@@ -55,7 +34,6 @@
 						});
 					}
 				});
-
 				// 로그인
 				$('.dig_login').click(function(){
 					var more_menu = $('.header_more_menu'),
@@ -76,36 +54,16 @@
 						});
 					}
 				});
-
-				// 어두운 영역 클릭 시 띄워져 있는 폼 닫기
-				$('.back_drop').click(function(){
-					var more_menu = $('.header_more_menu'),
-						search_tab = $('.search_tab'),
-						login_tab = $('.login_tab');
-
-					if(more_menu.hasClass('show') === true) {
-						more_menu.animate({top:-350}, 300).removeClass('show');
-					} else if(search_tab.hasClass('show') === true) {
-						search_tab.fadeOut(100).removeClass('show');
-					} else if(login_tab.hasClass('show') === true) {
-						login_tab.fadeOut(100).removeClass('show');
-					}
-
-					$('.back_drop').css('display', 'none');
-				});
 			});
 			//검색창 엔터 검색
 			function press(f){
 				if(f.keyCode == 13){
 				 search.submit();
-
 			}
-				}
-
+			}
 		</script>
 	</head>
 	<body>
-		<div class="back_drop"></div>
 		<header>
 			<div class="header_wrap">
 				<div class="logo"><a href="/home"><img src="/img/logo.png"></a></div>

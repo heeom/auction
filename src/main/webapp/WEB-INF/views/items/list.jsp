@@ -6,9 +6,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&display=swap" rel="stylesheet">
 <script src="/js/jquery.number.min.js"></script>
 
-<c:set var="articleList" value="${articleList}" />
-<c:set var="articleSize" value="${articleList.size()}" />
-<c:set var="orderarticle" value="${orderarticle}"/>
 
 <c:set var="pageInfo" value="${PageCriteria}"/>
 <c:set var="itemList" value="${itemList}"/>
@@ -19,13 +16,13 @@
 		<ul>
 			<c:forEach var="item" items="${itemList}" >
 				<li class="desc">
-<%--					<a onclick="btn(${item.itemId})">--%>
+					<a href="/items/${item.itemId}">
 						<span class="thumb">
-							<img src="../upload/${item.itemThumbnail}" width="120" onclick="btn(${item.itemId})">
+							<img src="../upload/${item.itemThumbnail}" width="120">
 							<em>상품 보기</em>
 						</span>
 						<span class="subject">${item.itemName}</span>
-<%--					</a>--%>
+					</a>
 					<p class="price_now">
 						<span>현재가</span>
 						<span class="price_formatting price">${item.nowBidPrice}</span>

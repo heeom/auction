@@ -5,9 +5,9 @@
 		<h2>FAQ TOP5</h2>
 		궁금증이 해결되지 않으셨다면 <strong><a href="../qna/qnaList.qa">1:1 상담/문의</a></strong>를 통해 답변 받으실 수 있습니다.
 	</div>
-	<button class="Q"><img name="img" src="img/QOff.png"><p>사기당했어요. 어떻게 처리해야 하나요?</p></button>
+	<button class="Q"><img name="img" src="/img/QOff.png"><p>사기당했어요. 어떻게 처리해야 하나요?</p></button>
 	<div class="A">
-		<div><img  name="img" src="img/AOn.png"></div>
+		<div><img  name="img" src="/img/AOn.png"></div>
 		<div name="faqa">
 		<h2>[땅땅땅에서 할 수 있는 조치]</h2>
 		<br>
@@ -30,29 +30,29 @@
 		&nbsp;2) 사이버 안전 지킴이<br>
 		&nbsp;&nbsp;&nbsp;&nbsp;해당 사이트에 방문하여 증거자료 첨부 후 안내에 따라 작성하시면 됩니다.</div>
 	</div>
-	<button class="Q"><img name="img" src="img/QOff.png"> <p>접속이 느려요</p> </button>
+	<button class="Q"><img name="img" src="/img/QOff.png"> <p>접속이 느려요</p> </button>
 	<div class="A">
-		<div><img  name="img" src="img/AOn.png" ></div>
+		<div><img  name="img" src="/img/AOn.png" ></div>
 		<div name="faqa"><p>이동 중이거나 건물 지하와 같은 특정 공간에서는 네트워크가 원활하지 않을 수 있습니다. 만약 일시적인 것이 아니라 지속적으로 오류가 발생한다면 오른쪽 하단의 [땅땅땅]카카오 채널 바로가기 버튼을 통애 문의주시기 바랍니다.</p>
 	</div></div>
-	<button class="Q"><img name="img" src="img/QOff.png"><p>교환이나 환불은 어떻게 하나요?</p></button>
+	<button class="Q"><img name="img" src="/img/QOff.png"><p>교환이나 환불은 어떻게 하나요?</p></button>
 	<div class="A">
-		<div><img  name="img" src="img/AOn.png" ></div>
+		<div><img  name="img" src="/img/AOn.png" ></div>
 		<div name=faqa"><p>중고상품은 개인간의 거래이므로 전자 상거래, 상거래법, 소비자보호법 등이 적용되지 않으며, 원래 제품이 아닌 사진을 보여주거나 제품 자체에 하자가 있을 경우에 교환 및 환불이 가능하실 수 있습니다. 물품 수령 후 판매자로부터 전달받지 못한 하자가 확인된다면 즉시 판매자에게 해당 사항을 전달하여 협의하시길 바랍니다.<br>
 			상품상세설명에 반품불가라고 표기되더라도 관련법이 우선하므로 구매자의 반품시 이를 받아주어야 합니다.<br>
 			 - 단순변심: 수령 후 7일 이내 <br>
 			 - 표시/광고와 상이: 수령 후 3개월 이내 또는 사실을 안 날로부터 30일 이내</p>
 	</div></div>
-	<button class="Q"><img name="img" src="img/QOff.png" ><p>거래하면 안되는 물품이 있나요?</p></button>
+	<button class="Q"><img name="img" src="/img/QOff.png" ><p>거래하면 안되는 물품이 있나요?</p></button>
 	<div class="A">
-		<div><img  name="img" src="img/AOn.png"></div>
+		<div><img  name="img" src="/img/AOn.png"></div>
 		<div name="faqa"><p>땅땅땅은 건전한 거래 환경을 위하여 관련 법률 및 운영정책을 통해 거래금지 물품을 지정하고 있습니다.<br>
 		   만약, 거래금지 물품을 등록할 경우 사전 경고없이 게시물 삭제 및 서비스 이용정지가 적용될 수 있습니다.<br>
 		</p>
 	</div></div>
-	<button class="Q"><img name="img" src="img/QOff.png" ><p> 공휴일에도 택배 배송이 가능한가요?</p></button>
+	<button class="Q"><img name="img" src="/img/QOff.png" ><p> 공휴일에도 택배 배송이 가능한가요?</p></button>
 	<div class="A">
-		<div><img  name="img" src="img/AOn.png" ></div>
+		<div><img  name="img" src="/img/AOn.png" ></div>
 		<div id="faqa"><p>토요일, 일요일을 포함한 법정 공휴일에는 접수만 가능하실 뿐 택배 배송은 이뤄지지 않고 있습니다.<br>
 		그러므로 택배를 보내실 때에 주말과 공휴일이 겹치지 않게 보내는 게 빠른 배송을 위한 방법입니다.</p>
 	</div></div>

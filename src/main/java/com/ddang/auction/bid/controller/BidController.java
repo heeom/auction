@@ -22,11 +22,10 @@ public class BidController {
         this.bidService = bidService;
     }
 
-    @PostMapping()
+    @PostMapping
     public String bidPrice(BidItem bidItem, Model model){
         bidItem.setBidDate(LocalDateTime.now().toString());
         Item item = bidService.bid(bidItem);
-//        model.addAttribute("item", item);
         return "redirect:/items/" + item.getItemId();
     }
 

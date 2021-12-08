@@ -3,6 +3,7 @@ package com.ddang.auction.items.service;
 import com.ddang.auction.items.domain.Item;
 import com.ddang.auction.items.repository.ItemRepository;
 import com.ddang.auction.items.domain.PageCriteria;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,12 +24,14 @@ class ItemServiceTest {
     @Autowired ItemService itemService;
     @Autowired ItemRepository itemRepository;
 
+
+    @DisplayName("상품 추가 테스트")
     @Test
     void addItem() {
         //given
         Item item = new Item();
         item.setItemName("testItem");
-        item.setMemberId("testId");
+        item.setUsername("testId");
         item.setAddItemDate(LocalDateTime.now().toString());
         item.setEndItemDate(item.getAddItemDate());
         item.setFirstBidPrice(new BigInteger("10000"));
@@ -44,21 +47,23 @@ class ItemServiceTest {
         assertThat(item.getItemName()).isEqualTo(findItem.getItemName());
     }
 
+    @DisplayName("상품 조회 테스트")
     @Test
     void findItem() {
         Item item = new Item();
         item.setItemId(1L);
         item.setItemName("testItem");
-        item.setMemberId("testId");
+        item.setUsername("testId");
 
         Optional<Item> findItemOptional = itemRepository.findByItemId(item.getItemId());
 
         findItemOptional.ifPresent(findItem -> {
             assertThat(item.getItemName()).isEqualTo(findItem.getItemName());
-            assertThat(item.getMemberId()).isEqualTo(findItem.getMemberId());
+            assertThat(item.getUsername()).isEqualTo(findItem.getUsername());
         });
     }
 
+    @DisplayName("상품 리스트 조회 테스트")
     @Test
     void findItemList() {
         PageCriteria pageCriteria = new PageCriteria();
@@ -70,6 +75,7 @@ class ItemServiceTest {
         itemList.stream().map(Item::getItemId).forEach(System.out::println);
     }
 
+    @DisplayName("페이지 정보 조회 테스트")
     @Test
     void getPageInfo(){
         PageCriteria pageCriteria = new PageCriteria();

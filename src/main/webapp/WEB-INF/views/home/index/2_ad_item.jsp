@@ -3,8 +3,8 @@
 
 <div class="ad_item">
     <div class="set">
-        <c:set var="articleList" value="${articleList }" />
-        <c:set var="articleSize" value="${articleList.size() }" />
+        <c:set var="articleList" value="${itemList }" />
+        <c:set var="articleSize" value="${itemList.size() }" />
 
         <c:if test="${not empty articleList }">
             <c:forEach var="i" items="${articleList }">

@@ -6,12 +6,12 @@
 
 <div id="login">
     <div class="wrap">
-        <form action="/members/login" method="post" name="fl" onsubmit="return floginform_submit();">
+<%--        <form action="/members/login" method="post" name="fl" onsubmit="return floginform_submit()">--%>
             <p><input type="text" class="input" id="user_id" name="username" maxlength="20" placeholder="아이디"
                       style="ime-mode:disabled" onkeyup="this.value=this.value.replace(/[^a-zA-Z-_0-9]/g,'');" required>
             </p>
             <p><input type="password" class="input" name="password" maxlength="50" placeholder="비밀번호" required></p>
-            <p><input type="submit" class="btn_submit" value="로그인"></p>
+            <p><input type="button" class="btn_submit" value="로그인" onclick="submit()"></p>
 
             <div class="link">
 				<span class="save_id">
@@ -19,13 +19,31 @@
 				</span>
                 <a href="../members/join">짧은회원가입</a>
             </div>
-        </form>
+<%--        </form>--%>
 
         <script type="text/javascript">
-            $(document).ready(function () {
-                $('.login_tab').fadeIn(400).addClass('show');
-                fl.user_id.focus();
-            });
+            let submit = () => {
+                let id = document.getElementsByName('username');
+                let pw = document.getElementsByName('password');
+
+                fetch('http://localhost:8080/members/login',{
+                    method : 'post',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                    },
+                    body : new URLSearchParams({
+                        username : id,
+                        password : pw
+                    })
+                })
+                    .then((response) => response.json())
+                    .then(response => {
+                        if(response.accessToken){
+                            localStorage.setItem('accessToken', response.accessToken);
+                        }
+                    })
+            }
+
 
             function floginform_submit() {
                 if (!fl.user_id.value) {

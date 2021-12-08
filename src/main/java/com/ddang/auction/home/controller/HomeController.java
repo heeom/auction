@@ -1,19 +1,15 @@
 package com.ddang.auction.home.controller;
 
-import com.ddang.auction.member.domain.LoginMember;
-import com.ddang.auction.member.domain.SessionConst;
-import com.ddang.auction.web.argumentresolver.Login;
+import com.ddang.auction.items.domain.Item;
+import com.ddang.auction.items.domain.PageCriteria;
+import com.ddang.auction.items.service.ItemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
-import java.util.stream.Stream;
+import java.util.List;
 
 
 @Slf4j
@@ -21,9 +17,17 @@ import java.util.stream.Stream;
 @Controller
 public class HomeController {
 
-    @GetMapping
-    public String home(){
-        return "redirect:/items";
+    private final ItemService itemService;
 
+    public HomeController(ItemService itemService) {
+        this.itemService = itemService;
+    }
+
+    @GetMapping
+    public String home(Model model){
+        PageCriteria pageCriteria = itemService.getPageInfo(new PageCriteria());
+        List<Item> itemList = itemService.findItemList(pageCriteria);
+        model.addAttribute("itemList", itemList);
+        return "home/index";
     }
 }

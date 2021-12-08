@@ -4,12 +4,9 @@ import com.ddang.auction.member.domain.LoginMember;
 import com.ddang.auction.member.domain.Member;
 import com.ddang.auction.member.service.MemberService;
 import com.ddang.auction.web.security.dto.TokenDto;
-import com.ddang.auction.web.security.service.TokenProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -18,19 +15,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.Arrays;
 
+import static com.ddang.auction.web.security.JwtFilter.AUTHORIZATION_HEADER;
+
 @Slf4j
 @Controller
 @RequestMapping("/members")
 public class MemberController {
 
     private final MemberService memberService;
-    private final TokenProvider tokenProvider;
-    private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public MemberController(MemberService memberService, TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
+    public MemberController(MemberService memberService) {
         this.memberService = memberService;
-        this.tokenProvider = tokenProvider;
-        this.authenticationManagerBuilder = authenticationManagerBuilder;
     }
 
     @GetMapping("/join")
@@ -53,16 +48,28 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public String login(LoginMember loginMember, HttpServletResponse response, Model model){
+    public String login(LoginMember loginMember, HttpServletResponse response){
         TokenDto token = memberService.login(loginMember);
-        response.setHeader("token", "Bearer "+token);
+        response.setHeader("accessToken", token.getTokenType()+token.getAccessToken());
+        Cookie cookie = new Cookie("refreshToken", token.getRefreshToken());
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(60*30);
+        response.addCookie(cookie);
+
         return "home/index";
     }
 
     @PostMapping("/reissue")
     public ResponseEntity<TokenDto> reissue(HttpServletRequest request){
-        TokenDto token = new TokenDto();
-        return ResponseEntity.ok(memberService.reissue(token));
+        Cookie refreshToken = Arrays.stream(request.getCookies())
+                .filter(cookie -> cookie.getName().equals("refreshToken"))
+                .findFirst().get();
+
+        TokenDto tokenDto = TokenDto.builder()
+                .accessToken(request.getHeader(AUTHORIZATION_HEADER).substring(7))
+                .refreshToken(refreshToken.getValue())
+                .build();
+        return ResponseEntity.ok(memberService.reissue(tokenDto));
     }
 
     @GetMapping("/duplicate/username/{username}")

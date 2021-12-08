@@ -57,24 +57,6 @@
 		});
 	});
 
-// 	function close(){
-// 		var more_menu = $('.header_more_menu'),
-// 		search_tab = $('.search_tab'),
-// 		login_tab = $('.login_tab');
-
-// 	if(more_menu.hasClass('show') === true) {
-// 		more_menu.animate({top:-350}, 300).removeClass('show');
-// 	} else if(search_tab.hasClass('show') === true) {
-// 		search_tab.fadeOut(100).removeClass('show');
-// 	} else if(login_tab.hasClass('show') === true) {
-// 		login_tab.fadeOut(100).removeClass('show');
-// 	}
-
-// 	$('.back_drop').css('display', 'none');
-// 	}
-
-
-
 </script>
 <%
 String k1 = "　",k2 = "　", k3 = "　", k4 = "　", k5 = "　", k6 = "　", k7 = "　", k8 = "　", k9 = "　", k10 = "　";

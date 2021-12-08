@@ -43,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web
                 .ignoring()
-                .antMatchers("/css/**", "/error", "/js/**", "/*.ico", "/img/**", "/upload/**");
+                .antMatchers("/css/**", "/error", "/js/**", "/img/**", "/upload/**", "/*.ico");
     }
 
     /**
@@ -66,41 +66,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()//httpServletRequest를 사용하는 요청들에 대한 접근제한을 설정
                     .antMatchers("/home","/members/**", "/items").permitAll()
                     .anyRequest().authenticated()
-//                .and()
-//                .formLogin()
-//                    .loginPage("/members/login")
-//                    .permitAll()
+
                 .and()
                 .logout()
                     .permitAll()
-//                 JwtFilter를 등록한 JwtSecureConfig 적용
+
                 .and()
-                .apply(new JwtSecurityConfig(tokenProvider));
+                .apply(new JwtSecurityConfig(tokenProvider)); //JwtFilter를 등록한 JwtSecureConfig 적용
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-    //AuthenticationManagerBuilder객체로 spring 내부에서 인증처리
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth)
-//            throws Exception {
-//
-//        auth.jdbcAuthentication()
-//                .dataSource(dataSource)
-//                .passwordEncoder(passwordEncoder()) //password 암호화
-//                .usersByUsernameQuery("select mb_member_id, mb_password, mb_enabled "
-//                        + "from member "
-//                        + "where mb_member_id = ?") //authentication : 인증처리
-//                .authoritiesByUsernameQuery("select m.mb_member_id, r.role_name "
-//                        + "from user_role ur inner join member m on ur.user_id = m.id "
-//                        + "inner join role r on ur.role_id = r.role_id "
-//                        + "where m.mb_member_id = ?"); //authorization : 인가처리
-//        //member - role : @ManyToMany + mapping table
-//    }
-
-
 
 }

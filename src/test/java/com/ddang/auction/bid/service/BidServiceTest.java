@@ -25,6 +25,7 @@ class BidServiceTest {
     @Autowired BidRepository bidRepository;
     @Autowired ItemRepository itemRepository;
 
+    
     @Test
     void addBidPrice() {
         BidItem bidItem = new BidItem();

@@ -22,13 +22,6 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @GetMapping("/{itemId}")
-    public String Item(@PathVariable Long itemId, Model model){
-        Item item = itemService.findItem(itemId).get();
-        model.addAttribute("item", item);
-        return "/items/view";
-    }
-
     @GetMapping()
     public String ItemList(PageCriteria pageCriteria, Model model){
         pageCriteria = itemService.getPageInfo(pageCriteria);
@@ -37,6 +30,13 @@ public class ItemController {
         model.addAttribute("itemList", itemList);
         model.addAttribute("pageCriteria", pageCriteria);
         return "/items/list";
+    }
+
+    @GetMapping("/{itemId}")
+    public String Item(@PathVariable Long itemId, Model model){
+        Item item = itemService.findItem(itemId).get();
+        model.addAttribute("item", item);
+        return "/items/view";
     }
 
     @GetMapping("/create")

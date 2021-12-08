@@ -16,33 +16,25 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
 
+    private static final int RECORDS_COUNT = 12;
+    private static final int PAGE_SIZE = 10;
+    private static final int DEFAULT_PAGE = 1;
+
     public ItemService(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
     }
 
-    public Item addItem(Item item){
+    public Item addItem(Item item) {
         setDefaultItemInfo(item);
         return itemRepository.save(item);
     }
 
-    public Optional<Item> findItem(Long itemId){
+    public Optional<Item> findItem(Long itemId) {
         return itemRepository.findByItemId(itemId);
     }
 
-    public List<Item> findItemList(PageCriteria pageCriteria){
+    public List<Item> findItemList(PageCriteria pageCriteria) {
         return itemRepository.findAllItems(pageCriteria);
-    }
-
-    public PageCriteria getPageInfo(PageCriteria pageCriteria) {
-        setDefaultPageCriteria(pageCriteria);
-        return itemRepository.findPages(pageCriteria);
-    }
-
-    public Item editItem(Item item){
-        return null;
-    }
-
-    public void delete(int itemNo){
     }
 
     private void setDefaultItemInfo(Item item) {
@@ -52,16 +44,16 @@ public class ItemService {
         item.setIsSuccess(Boolean.FALSE);
     }
 
-    /**
-     * @param pageCriteria
-     * 상품목록 첫페이지 정보 세팅
-     */
-
+    public PageCriteria getPageInfo(PageCriteria pageCriteria) {
+        setDefaultPageCriteria(pageCriteria);
+        return itemRepository.findPages(pageCriteria);
+    }
+    //상품목록 첫페이지 정보 세팅
     private void setDefaultPageCriteria(PageCriteria pageCriteria) {
-        if(pageCriteria.getCurrentPageNum() == null){
-            pageCriteria.setCurrentPageNum(1);
+        if (pageCriteria.getCurrentPageNum() == null) {
+            pageCriteria.setCurrentPageNum(DEFAULT_PAGE);
         }
-        pageCriteria.setRecordsPerPage(10);
-        pageCriteria.setPageSize(10);
+        pageCriteria.setRecordsPerPage(RECORDS_COUNT);
+        pageCriteria.setPageSize(PAGE_SIZE);
     }
 }
