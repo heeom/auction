@@ -13,6 +13,8 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 @Slf4j
 @Repository
 public class JdbcTemplateBidRepository implements BidRepository{
@@ -42,7 +44,7 @@ public class JdbcTemplateBidRepository implements BidRepository{
     }
 
     @Override
-    public BidItem saveWinningBid(BidItem bidItem) {
+    public Optional<BidItem> saveWinningBid(BidItem bidItem) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         jdbcInsert.withTableName("orderhistory").usingGeneratedKeyColumns("or_orderId");
 
@@ -56,7 +58,7 @@ public class JdbcTemplateBidRepository implements BidRepository{
 
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
         bidItem.setBidId(key.longValue());
-        return bidItem;
+        return Optional.of(bidItem);
     }
 
     @Override
@@ -70,6 +72,7 @@ public class JdbcTemplateBidRepository implements BidRepository{
     }
 
     private RowMapper<BidItem> bidItemRowMapper(){
+
         return (rs, rowNum) -> {
             BidItem bidItem = new BidItem();
             bidItem.setBidId(rs.getLong("bh_historyId"));

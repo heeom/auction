@@ -19,26 +19,27 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class MemberServiceTest {
 
     @Autowired MemberService memberService;
-    @Autowired MemberRepository memberRepository; //구현체는 MemberJdbcTemplateRepository -> JPA로 변경함
+    @Autowired MemberRepository memberRepository;
+
 
     @DisplayName("회원가입 테스트")
     @Test
     void joinMember(){
         //given
         Member member = new Member();
-//        member.setMemberId("test4");
+        member.setUsername("joinTestId");
         member.setPassword("testPW");
         member.setNickName("testNick");
         member.setEmail("test@email.com");
         member.setRegTime(LocalDateTime.now().toString());
 
         //when
-//        Member savedMember = memberService.join(member);
         Member savedMember = memberRepository.save(member);
 
         //then
         Member findMember = memberService.findOne(savedMember.getId()).get();
-//        assertThat(member.getMemberId()).isEqualTo(findMember.getMemberId());
+
+        assertThat(findMember.getUsername()).isEqualTo(member.getUsername());
     }
     
     @DisplayName("로그인 테스트")
@@ -57,7 +58,7 @@ public class MemberServiceTest {
 //        assertThat(loginMember.getMemberId()).isEqualTo(member.getMemberId());
     }
 
-
+    @DisplayName("중복아이디 체크 테스트")
     @Test
     void checkUsernameExist() {
         Member member = new Member();
@@ -67,7 +68,8 @@ public class MemberServiceTest {
 
         assertThat(findMember.getUsername()).isEqualTo(member.getUsername());
     }
-
+    
+    @DisplayName("중복 닉네임 체크 테스트")
     @Test
     void checkNickNameExist() {
         Member member = new Member();

@@ -4,7 +4,7 @@ import com.ddang.auction.bid.domain.BidItem;
 import com.ddang.auction.bid.repository.BidRepository;
 import com.ddang.auction.items.domain.Item;
 import com.ddang.auction.items.repository.ItemRepository;
-import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,11 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -25,7 +22,7 @@ class BidServiceTest {
     @Autowired BidRepository bidRepository;
     @Autowired ItemRepository itemRepository;
 
-    
+    @DisplayName("현재 입찰가 업데이트 테스트")
     @Test
     void addBidPrice() {
         BidItem bidItem = new BidItem();
@@ -41,12 +38,11 @@ class BidServiceTest {
         item.setNowBidPrice(new BigInteger("1200"));
 
         int updateCount = itemRepository.updateNowBidPrice(item);
-        if (updateCount>0){
-            System.out.println("update complete : " + updateCount);
-        }
+        
+        assertThat(updateCount).isEqualTo(1);
     }
 
-
+    @DisplayName("입찰 후 미낙찰 테스트")
     @Test
     void bid() {
         BidItem bidItem = new BidItem();
@@ -58,8 +54,7 @@ class BidServiceTest {
         bidItem.setSellerId("test3");
         bidItem.setBidDate(LocalDateTime.now().toString());
 
-        Item findItem = itemRepository.findByItemId(bidItem.getItemId())
-                .stream().findAny().get();
+        Item findItem = itemRepository.findByItemId(bidItem.getItemId()).orElse(new Item());
 
         if(!findItem.getIsSuccess()){
             calculateNowBidPrice(bidItem);
@@ -76,10 +71,7 @@ class BidServiceTest {
 
     }
     boolean isSuccessfulBid(BidItem bidItem){
-        if (bidItem.getNowBidPrice().compareTo(bidItem.getMaxBidPrice())>=1){
-            return true;
-        }
-        return false;
+        return bidItem.getNowBidPrice().compareTo(bidItem.getMaxBidPrice()) >= 1;
     }
     Boolean isSuccessfulBidThenSave(BidItem bidItem) {
         if(isSuccessfulBid(bidItem)){
@@ -88,12 +80,12 @@ class BidServiceTest {
         }
         return false;
     }
+
+    @DisplayName("낙찰 기록 저장 테스트")
+    @Test
     Boolean saveOrderHistory(BidItem bidItem){
-        BidItem saveWinningBid = bidRepository.saveWinningBid(bidItem);
-        if(saveWinningBid.getBidId()!=null){
-            return true;
-        }
-        return false;
+        BidItem saveWinningBid = bidRepository.saveWinningBid(bidItem).orElse(new BidItem());
+        return saveWinningBid.getBidId() != null;
     }
 
     void calculateNowBidPrice(BidItem bidItem){

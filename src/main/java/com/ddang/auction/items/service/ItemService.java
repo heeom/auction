@@ -16,7 +16,7 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
 
-    private static final int RECORDS_COUNT = 12;
+    private static final int RECORDS_COUNT = 10;
     private static final int PAGE_SIZE = 10;
     private static final int DEFAULT_PAGE = 1;
 

@@ -36,7 +36,6 @@ public class JdbcTemplateItemRepository implements ItemRepository{
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("it_itemName", item.getItemName());
         parameters.put("it_memberId", item.getUsername());
-        parameters.put("it_itemName", item.getItemName());
         parameters.put("it_addItemDate", item.getAddItemDate());
         parameters.put("it_endItemDate", item.getEndItemDate());
         parameters.put("it_firstBidPrice", item.getFirstBidPrice());

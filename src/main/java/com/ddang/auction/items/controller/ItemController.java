@@ -29,14 +29,14 @@ public class ItemController {
 
         model.addAttribute("itemList", itemList);
         model.addAttribute("pageCriteria", pageCriteria);
-        return "/items/list";
+        return "items/list";
     }
 
     @GetMapping("/{itemId}")
     public String Item(@PathVariable Long itemId, Model model){
         Item item = itemService.findItem(itemId).get();
         model.addAttribute("item", item);
-        return "/items/view";
+        return "items/view";
     }
 
     @GetMapping("/create")
@@ -46,9 +46,6 @@ public class ItemController {
 
     @PostMapping("/create")
     public String createItem(Item item, Model model){
-
-        log.info("multi-part : {}", item.getItemContent());
-
         Item saveItem = itemService.addItem(item);
         model.addAttribute("item", saveItem);
         return "items/view";
