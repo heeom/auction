@@ -3,7 +3,7 @@ package com.ddang.auction.web.config;
 import com.ddang.auction.web.security.config.JwtSecurityConfig;
 import com.ddang.auction.web.security.controller.JwtAccessDeniedHandler;
 import com.ddang.auction.web.security.controller.JwtAuthenticationEntryPoint;
-import com.ddang.auction.web.security.service.TokenProvider;
+import com.ddang.auction.web.security.TokenProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

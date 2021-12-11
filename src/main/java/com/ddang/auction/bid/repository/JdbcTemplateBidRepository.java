@@ -58,6 +58,7 @@ public class JdbcTemplateBidRepository implements BidRepository{
 
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
         bidItem.setBidId(key.longValue());
+
         return Optional.of(bidItem);
     }
 
@@ -95,7 +96,6 @@ public class JdbcTemplateBidRepository implements BidRepository{
             bidItem.setBidDate(rs.getTimestamp("or_orderDate").toString());
             return bidItem;
         };
-
     }
 
 }

@@ -3,6 +3,8 @@ package com.ddang.auction.member.controller;
 import com.ddang.auction.member.domain.LoginMember;
 import com.ddang.auction.member.domain.Member;
 import com.ddang.auction.member.service.MemberService;
+import com.ddang.auction.web.security.JwtFilter;
+import com.ddang.auction.web.security.TokenProvider;
 import com.ddang.auction.web.security.dto.TokenDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -60,7 +62,7 @@ public class MemberController {
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<TokenDto> reissue(HttpServletRequest request){
+    public ResponseEntity<TokenDto> reissue(HttpServletRequest request, HttpServletResponse response){
         Cookie refreshToken = Arrays.stream(request.getCookies())
                 .filter(cookie -> cookie.getName().equals("refreshToken"))
                 .findFirst().get();
@@ -69,7 +71,16 @@ public class MemberController {
                 .accessToken(request.getHeader(AUTHORIZATION_HEADER).substring(7))
                 .refreshToken(refreshToken.getValue())
                 .build();
-        return ResponseEntity.ok(memberService.reissue(tokenDto));
+
+        TokenDto token = memberService.reissue(tokenDto);
+
+        response.setHeader("accessToken", JwtFilter.BEARER_TYPE+token.getAccessToken());
+        Cookie cookie = new Cookie("refreshToken", token.getRefreshToken());
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(60*30);
+        response.addCookie(cookie);
+
+        return ResponseEntity.ok(tokenDto);
     }
 
     @GetMapping("/duplicate/username/{username}")

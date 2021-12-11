@@ -9,7 +9,7 @@ import com.ddang.auction.web.security.SecurityUtil;
 import com.ddang.auction.web.security.dto.RefreshToken;
 import com.ddang.auction.web.security.dto.TokenDto;
 import com.ddang.auction.web.security.repository.RefreshTokenRepository;
-import com.ddang.auction.web.security.service.TokenProvider;
+import com.ddang.auction.web.security.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,12 +32,7 @@ public class MemberService {
      private final PasswordEncoder passwordEncoder;
      private final AuthenticationManagerBuilder authenticationManagerBuilder;
      private final TokenProvider tokenProvider;
-     /**
-      * 회원가입
-      * - 중복 회원 검증
-      * - 회원 저장
-      */
-     @Transactional
+
      public Member join(Member member){
           checkDuplicateUsername(member);
 
@@ -51,7 +46,6 @@ public class MemberService {
 
           return memberRepository.save(member);
      }
-
 
 
      public TokenDto login(LoginMember loginMember) {
@@ -96,8 +90,6 @@ public class MemberService {
 
           //2. access token에서 username가져오기
           Authentication authentication = tokenProvider.getAuthentication(token.getAccessToken());
-
-
 
           //3. refresh token 저장소에서 username기반으로 refresh token 조회해오기
           RefreshToken refreshToken = refreshTokenRepository.findByKey(authentication.getName())

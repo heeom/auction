@@ -1,4 +1,4 @@
-package com.ddang.auction.web.security.service;
+package com.ddang.auction.web.security;
 
 import com.ddang.auction.web.security.dto.TokenDto;
 import io.jsonwebtoken.*;
@@ -14,7 +14,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.util.Base64Utils;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -39,7 +38,7 @@ import java.util.stream.Collectors;
 public class TokenProvider implements InitializingBean{
 
     private static final String AUTHORITIES_KEY = "auth";
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 1; //30분
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30; //30분
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7; //7일
     private static final String TOKEN_TYPE = "Bearer ";
     private final String secret;
