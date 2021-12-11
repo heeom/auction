@@ -67,7 +67,7 @@ Intellij
     1.1 spring security + jwt 적용  
     1.2 jwt설정 추가  
     1.3 refresh 토큰 추가    
-    1.4 access token 만료시 재발급  
+    1.4 access token + refresh token 재발급    
 2. 예외처리하기   
     2.1 인증실패, 권한 없는 경우 -> 401,403   
     2.2 삭제된 상품페이지 요청 -> 404 
